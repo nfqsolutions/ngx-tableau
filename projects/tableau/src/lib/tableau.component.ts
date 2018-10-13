@@ -1,11 +1,14 @@
-import { ScriptService } from './../scripts.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ScriptService } from './scripts.service';
 declare var tableau: any;
 
 @Component({
-  selector: 'app-tableau',
-  templateUrl: './tableau.component.html',
-  styleUrls: ['./tableau.component.scss']
+  selector: 'ngx-tableau',
+  template: `
+    <p>Still working!</p>
+    <div style="z-index: 1" id="tableauViz"></div>
+  `,
+  styles: []
 })
 export class TableauComponent implements OnInit, OnDestroy {
   // TODO Iniciar README con roadmap e instucciones de arranque (especificación???)
