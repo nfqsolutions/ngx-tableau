@@ -5,13 +5,19 @@ declare var tableau: any;
 @Component({
   selector: 'ngx-tableau',
   template: `
-    <div style="z-index: 1" id="tableauViz"></div>
+    <div class="ngx-tableau-viz" id="tableauViz"></div>
   `,
-  styles: []
+  styles: [
+    `
+      .ngx-tableau-viz {
+        z-index: 1;
+        height: calc(100vh - 20px);
+      }
+    `
+  ]
 })
 export class TableauComponent implements OnInit, OnDestroy {
   // TODO Iniciar README con roadmap e instucciones de arranque (especificación???)
-  // TODO Probar a hacer un test
   tableauViz;
   tableauUrl =
     // tslint:disable-next-line:max-line-length
@@ -22,14 +28,17 @@ export class TableauComponent implements OnInit, OnDestroy {
       .load('tableau')
       .then(data => {
         console.log('Tableau API successful loaded', data);
-        this.getTableau();
+        this.renderTableauViz();
       })
       .catch(error => console.log(error));
   }
 
   ngOnInit() {}
 
-  getTableau() {
+  /**
+   * Render a Tableau visualization, generating Tableau URL and using Tableau JS API to show vizualization
+   */
+  renderTableauViz() {
     const placeholderDiv = document.getElementById('tableauViz');
     const options = {
       hideTabs: false,
@@ -40,10 +49,12 @@ export class TableauComponent implements OnInit, OnDestroy {
       }
     };
 
+    // Usage of Tableau JS API to show visualization
     this.tableauViz = new tableau.Viz(placeholderDiv, this.tableauUrl, options);
   }
 
   ngOnDestroy() {
+    // Dispose tableauViz to avoid memory leaks when component is destroyed
     if (this.tableauViz) {
       this.tableauViz.dispose();
     }
