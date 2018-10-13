@@ -7,7 +7,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build-tableau": " ng build --prod tableau"
   },
   "private": true,
   "dependencies": {
@@ -21,6 +22,7 @@
     "@angular/platform-browser-dynamic": "^6.1.0",
     "@angular/router": "^6.1.0",
     "angular4-tableau-api": "0.0.2",
+    "big.js": "^5.2.1",
     "core-js": "^2.5.4",
     "rxjs": "^6.0.0",
     "tableau-api": "^2.2.2",

@@ -5,7 +5,6 @@ declare var tableau: any;
 @Component({
   selector: 'ngx-tableau',
   template: `
-    <p>Still working!</p>
     <div style="z-index: 1" id="tableauViz"></div>
   `,
   styles: []
@@ -15,13 +14,14 @@ export class TableauComponent implements OnInit, OnDestroy {
   // TODO Probar a hacer un test
   tableauViz;
   tableauUrl =
+    // tslint:disable-next-line:max-line-length
     'https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages?:embed=y&:embed_code_version=3&:loadOrderID=0&:display_count=yes';
 
   constructor(scriptService: ScriptService) {
     scriptService
       .load('tableau')
       .then(data => {
-        console.log('script loaded ', data);
+        console.log('Tableau API successful loaded', data);
         this.getTableau();
       })
       .catch(error => console.log(error));
