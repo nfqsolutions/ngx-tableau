@@ -12,4 +12,4 @@ Make changes in `projects/tableau/src/lib` and execute command `npm run build-ta
 
 ## Running unit tests for tableau library
 
-Run `npm test tableau` to execute ngx-tableau unit tests.
+Run `npm test` to execute ngx-tableau unit tests.

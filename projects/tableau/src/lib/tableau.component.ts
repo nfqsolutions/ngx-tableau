@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { ScriptService } from './scripts.service';
 declare var tableau: any;
 
@@ -19,9 +19,7 @@ declare var tableau: any;
 export class TableauComponent implements OnInit, OnDestroy {
   // TODO Iniciar README con roadmap e instucciones de arranque (especificación???)
   tableauViz;
-  tableauUrl =
-    // tslint:disable-next-line:max-line-length
-    'https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages?:embed=y&:embed_code_version=3&:loadOrderID=0&:display_count=yes';
+  @Input() tableauVizUrl: string;
 
   constructor(scriptService: ScriptService) {
     scriptService
@@ -30,7 +28,7 @@ export class TableauComponent implements OnInit, OnDestroy {
         console.log('Tableau API successful loaded', data);
         this.renderTableauViz();
       })
-      .catch(error => console.log(error));
+      .catch(error => console.error('Tableau API not loaded', error));
   }
 
   ngOnInit() {}
@@ -49,8 +47,25 @@ export class TableauComponent implements OnInit, OnDestroy {
       }
     };
 
+    if (this.checkRequiredInputs()) {
     // Usage of Tableau JS API to show visualization
-    this.tableauViz = new tableau.Viz(placeholderDiv, this.tableauUrl, options);
+    this.tableauViz = new tableau.Viz(placeholderDiv, this.tableauVizUrl, options);
+    }
+  }
+
+  /**
+   * Check if all required inputs for embedding a Tableau visualization are set
+   * @returns true if all required inputs are set, false otherwise
+   */
+  checkRequiredInputs(): boolean {
+    if (!this.tableauVizUrl) {
+      console.error('Tableau visualization URL is required. Add tableauVizUrl input');
+      return false;
+    } else {
+      console.log(`Using Tableau visualization URL: ${this.tableauVizUrl}`);
+    }
+
+    return true;
   }
 
   ngOnDestroy() {

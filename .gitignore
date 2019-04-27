@@ -40,3 +40,4 @@ Thumbs.db
 
 #Visual Code Files
 *.code-workspace
+.vscode/
