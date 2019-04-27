@@ -32,7 +32,7 @@ describe('TableauComponent', () => {
   it('should generate correct Tableau URL', () => {
     expect(component.tableauVizUrl).toEqual(
       // tslint:disable-next-line:max-line-length
-      'https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages?:embed=y&:embed_code_version=3&:loadOrderID=0&:display_count=yes'
+      'https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages'
     );
   });
 });

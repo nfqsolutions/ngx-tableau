@@ -22,11 +22,9 @@
     "@angular/platform-browser": "^6.1.0",
     "@angular/platform-browser-dynamic": "^6.1.0",
     "@angular/router": "^6.1.0",
-    "angular4-tableau-api": "0.0.2",
     "big.js": "^5.2.1",
     "core-js": "^2.5.4",
     "rxjs": "^6.0.0",
-    "tableau-api": "^2.2.2",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
