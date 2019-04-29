@@ -1,14 +1,14 @@
 import { AppPage } from './app.po';
 
-describe('workspace-project App', () => {
+describe('ngx-tableau', () => {
   let page: AppPage;
 
   beforeEach(() => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  it('should display tableauViz container', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to ngx-tableau!');
+    expect(page.getTableauVizContainer()).toBeDefined();
   });
 });

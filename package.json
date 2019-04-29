@@ -9,6 +9,7 @@
     "test-container": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "ci": "npm run e2e && npm test",
     "build-tableau": "ng build --prod tableau"
   },
   "private": true,
