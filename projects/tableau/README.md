@@ -1,6 +1,6 @@
 # ngx-tableau
 
-ngx-tableau is a library to embed Tableau visualitation into Angular apps.
+ngx-tableau is an Angular module that allows to embed a [Tableau](https://www.tableau.com) report in an Angular webapp.
 
 ## Getting started
 
