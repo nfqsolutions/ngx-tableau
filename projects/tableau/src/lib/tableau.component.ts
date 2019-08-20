@@ -13,8 +13,8 @@ declare var tableau: any;
         z-index: 1;
         height: calc(100vh - 20px);
       }
-    `
-  ]
+    `,
+  ],
 })
 export class TableauComponent implements OnInit, OnDestroy {
   // TODO Iniciar README con roadmap e instucciones de arranque (especificación???)
@@ -27,7 +27,7 @@ export class TableauComponent implements OnInit, OnDestroy {
 
   @Input() report: string;
 
-  serverUrl = 'https://tableau-nfq.nfqsolutions.es'; 
+  serverUrl = 'https://tableau-nfq.nfqsolutions.es';
 
   constructor(scriptService: ScriptService) {
     scriptService
@@ -52,15 +52,20 @@ export class TableauComponent implements OnInit, OnDestroy {
       hideTabs: false,
       width: '100%',
       height: '100%',
-      onFirstInteractive() { // allows you to perform actions once the view has finished loading
+      onFirstInteractive() {
+        // allows you to perform actions once the view has finished loading
         // The viz is now ready and can be safely used.
-      }
+      },
     };
 
     if (this.checkRequiredInputs()) {
       console.log(this.tableauVizUrl);
-    // Usage of Tableau JS API to show visualization
-    this.tableauViz = new tableau.Viz(placeholderDiv, this.tableauVizUrl, options);
+      // Usage of Tableau JS API to show visualization
+      this.tableauViz = new tableau.Viz(
+        placeholderDiv,
+        this.tableauVizUrl,
+        options
+      );
     }
   }
 
@@ -80,10 +85,14 @@ export class TableauComponent implements OnInit, OnDestroy {
 
   createUrlFromInputs() {
     if (this.ticket && this.site && this.report) {
-      this.tableauVizUrl = `${this.serverUrl}/trusted/${this.ticket}/t/${this.site}/views/${this.report}`;
+      this.tableauVizUrl = `${this.serverUrl}/trusted/${this.ticket}/t/${
+        this.site
+      }/views/${this.report}`;
       return true;
     } else {
-      console.error('One or each one of the following parameters are missing: ticket, site or report');
+      console.error(
+        'One or each one of the following parameters are missing: ticket, site or report'
+      );
       return false;
     }
   }
