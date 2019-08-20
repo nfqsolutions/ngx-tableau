@@ -21,6 +21,14 @@ export class TableauComponent implements OnInit, OnDestroy {
   tableauViz;
   @Input() tableauVizUrl: string;
 
+  @Input() ticket: string;
+
+  @Input() site: string;
+
+  @Input() report: string;
+
+  serverUrl = 'https://tableau-nfq.nfqsolutions.es'; 
+
   constructor(scriptService: ScriptService) {
     scriptService
       .load('tableau')
@@ -31,7 +39,9 @@ export class TableauComponent implements OnInit, OnDestroy {
       .catch(error => console.error('Tableau API not loaded', error));
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this);
+  }
 
   /**
    * Render a Tableau visualization, generating Tableau URL and using Tableau JS API to show vizualization
@@ -42,12 +52,13 @@ export class TableauComponent implements OnInit, OnDestroy {
       hideTabs: false,
       width: '100%',
       height: '100%',
-      onFirstInteractive() {
+      onFirstInteractive() { // allows you to perform actions once the view has finished loading
         // The viz is now ready and can be safely used.
       }
     };
 
     if (this.checkRequiredInputs()) {
+      console.log(this.tableauVizUrl);
     // Usage of Tableau JS API to show visualization
     this.tableauViz = new tableau.Viz(placeholderDiv, this.tableauVizUrl, options);
     }
@@ -59,13 +70,22 @@ export class TableauComponent implements OnInit, OnDestroy {
    */
   checkRequiredInputs(): boolean {
     if (!this.tableauVizUrl) {
-      console.error('Tableau visualization URL is required. Add tableauVizUrl input');
-      return false;
+      return this.createUrlFromInputs();
     } else {
       console.log(`Using Tableau visualization URL: ${this.tableauVizUrl}`);
     }
 
     return true;
+  }
+
+  createUrlFromInputs() {
+    if (this.ticket && this.site && this.report) {
+      this.tableauVizUrl = `${this.serverUrl}/trusted/${this.ticket}/t/${this.site}/views/${this.report}`;
+      return true;
+    } else {
+      console.error('One or each one of the following parameters are missing: ticket, site or report');
+      return false;
+    }
   }
 
   ngOnDestroy() {

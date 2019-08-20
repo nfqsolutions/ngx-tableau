@@ -7,4 +7,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   tableauVizUrl = 'https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages';
+
+  // tableauVizUrl = '';
+
+  ticket = '';
+
+  site = 'AmazonRedshift';
+
+  report = 'Analytics/Analytics_CF?:iid=2';
 }
