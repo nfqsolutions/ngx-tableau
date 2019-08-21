@@ -29,6 +29,8 @@ export class TableauComponent implements OnInit, OnDestroy {
 
   @Input() report: string;
 
+  @Input() filters: object;
+
   constructor(scriptService: ScriptService) {
     scriptService
       .load('tableau')
@@ -39,9 +41,7 @@ export class TableauComponent implements OnInit, OnDestroy {
       .catch(error => console.error('Tableau API not loaded', error));
   }
 
-  ngOnInit() {
-    console.log(this);
-  }
+  ngOnInit() {}
 
   /**
    * Render a Tableau visualization, generating Tableau URL and using Tableau JS API to show vizualization
@@ -52,6 +52,7 @@ export class TableauComponent implements OnInit, OnDestroy {
       hideTabs: false,
       width: '100%',
       height: '100%',
+      ...this.filters,
       onFirstInteractive() {
         // allows you to perform actions once the view has finished loading
         // The viz is now ready and can be safely used.

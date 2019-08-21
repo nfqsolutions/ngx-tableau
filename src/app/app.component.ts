@@ -6,22 +6,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  // tableauVizUrl = 'https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages';
+  tableauVizUrl =
+    'https://public.tableau.com/views/SuperSampleSuperstore/SuperDescriptive';
 
-  // tableauVizUrl =
-  //   'https://public.tableau.com/views/ZodiacConstellations/Dashboard';
-
-  // tableauVizUrl = '';
-
-  // serverUrl = 'https://tableau-nfq.nfqsolutions.es';
-
-  serverUrl = 'https://public.tableau.com';
+  serverUrl = '';
 
   ticket = '';
 
-  site = 'AmazonRedshift';
+  site = '';
 
-  // report = 'Analytics/Analytics_CF?:iid=2';
+  report = '';
 
-  report = 'ZodiacConstellations/Dashboard';
+  filters = {};
 }
