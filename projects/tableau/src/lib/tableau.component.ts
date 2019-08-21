@@ -114,7 +114,7 @@ export class TableauComponent implements OnInit, OnDestroy {
       return true;
     } else {
       console.error(
-        'One or each one of the following parameters are missing: serverUrl, ticket, site or report'
+        'One or both of the following parameters are missing: serverUrl or report'
       );
       return false;
     }
