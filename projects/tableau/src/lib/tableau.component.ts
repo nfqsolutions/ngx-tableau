@@ -21,13 +21,13 @@ export class TableauComponent implements OnInit, OnDestroy {
   tableauViz;
   @Input() tableauVizUrl: string;
 
+  @Input() serverUrl: string;
+
   @Input() ticket: string;
 
   @Input() site: string;
 
   @Input() report: string;
-
-  serverUrl = 'https://tableau-nfq.nfqsolutions.es';
 
   constructor(scriptService: ScriptService) {
     scriptService
@@ -84,14 +84,37 @@ export class TableauComponent implements OnInit, OnDestroy {
   }
 
   createUrlFromInputs() {
-    if (this.ticket && this.site && this.report) {
-      this.tableauVizUrl = `${this.serverUrl}/trusted/${this.ticket}/t/${
-        this.site
-      }/views/${this.report}`;
+    if (this.ticket && this.serverUrl && this.report) {
+      if (this.site) {
+        this.tableauVizUrl = `${this.serverUrl}/trusted/${this.ticket}/t/${
+          this.site
+        }/views/${this.report}`;
+        console.log(
+          `Using Tableau visualization URL for private multisite: ${
+            this.tableauVizUrl
+          }`
+        );
+        return true;
+      } else {
+        this.tableauVizUrl = `${this.serverUrl}/trusted/${this.ticket}/views/${
+          this.report
+        }`;
+        console.log(
+          `Using Tableau visualization URL for private site: ${
+            this.tableauVizUrl
+          }`
+        );
+        return true;
+      }
+    } else if (this.serverUrl && this.report) {
+      this.tableauVizUrl = `${this.serverUrl}/views/${this.report}`;
+      console.log(
+        `Using Tableau visualization URL for public site: ${this.tableauVizUrl}`
+      );
       return true;
     } else {
       console.error(
-        'One or each one of the following parameters are missing: ticket, site or report'
+        'One or each one of the following parameters are missing: serverUrl, ticket, site or report'
       );
       return false;
     }
