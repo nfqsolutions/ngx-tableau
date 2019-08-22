@@ -13,13 +13,22 @@ declare var tableau: any;
         z-index: 1;
         height: calc(100vh - 20px);
       }
-    `
-  ]
+    `,
+  ],
 })
 export class TableauComponent implements OnInit, OnDestroy {
-  // TODO Iniciar README con roadmap e instucciones de arranque (especificación???)
   tableauViz;
   @Input() tableauVizUrl: string;
+
+  @Input() serverUrl: string;
+
+  @Input() ticket: string;
+
+  @Input() site: string;
+
+  @Input() report: string;
+
+  @Input() filters: object;
 
   constructor(scriptService: ScriptService) {
     scriptService
@@ -42,14 +51,20 @@ export class TableauComponent implements OnInit, OnDestroy {
       hideTabs: false,
       width: '100%',
       height: '100%',
+      ...this.filters,
       onFirstInteractive() {
+        // allows you to perform actions once the view has finished loading
         // The viz is now ready and can be safely used.
-      }
+      },
     };
 
     if (this.checkRequiredInputs()) {
-    // Usage of Tableau JS API to show visualization
-    this.tableauViz = new tableau.Viz(placeholderDiv, this.tableauVizUrl, options);
+      // Usage of Tableau JS API to show visualization
+      this.tableauViz = new tableau.Viz(
+        placeholderDiv,
+        this.tableauVizUrl,
+        options
+      );
     }
   }
 
@@ -59,13 +74,49 @@ export class TableauComponent implements OnInit, OnDestroy {
    */
   checkRequiredInputs(): boolean {
     if (!this.tableauVizUrl) {
-      console.error('Tableau visualization URL is required. Add tableauVizUrl input');
-      return false;
+      return this.createUrlFromInputs();
     } else {
       console.log(`Using Tableau visualization URL: ${this.tableauVizUrl}`);
     }
 
     return true;
+  }
+
+  createUrlFromInputs() {
+    if (this.ticket && this.serverUrl && this.report) {
+      if (this.site) {
+        this.tableauVizUrl = `${this.serverUrl}/trusted/${this.ticket}/t/${
+          this.site
+        }/views/${this.report}`;
+        console.log(
+          `Using Tableau visualization URL for private multisite: ${
+            this.tableauVizUrl
+          }`
+        );
+        return true;
+      } else {
+        this.tableauVizUrl = `${this.serverUrl}/trusted/${this.ticket}/views/${
+          this.report
+        }`;
+        console.log(
+          `Using Tableau visualization URL for private site: ${
+            this.tableauVizUrl
+          }`
+        );
+        return true;
+      }
+    } else if (this.serverUrl && this.report) {
+      this.tableauVizUrl = `${this.serverUrl}/views/${this.report}`;
+      console.log(
+        `Using Tableau visualization URL for public site: ${this.tableauVizUrl}`
+      );
+      return true;
+    } else {
+      console.error(
+        'One or both of the following parameters are missing: serverUrl or report'
+      );
+      return false;
+    }
   }
 
   ngOnDestroy() {
