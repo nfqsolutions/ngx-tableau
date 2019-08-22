@@ -2,11 +2,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { TableauModule } from 'tableau';
+import { TableauModule } from 'ngx-tableau';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, TableauModule],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

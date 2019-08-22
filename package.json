@@ -1,16 +1,16 @@
 {
-  "name": "ngx-tableau",
+  "name": "ngx-tableau-host",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "test": "ng test tableau",
+    "test": "ng test ngx-tableau",
     "test-container": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "ci": "npm run e2e && npm test",
-    "build-tableau": "ng build --prod tableau"
+    "build-tableau": "ng build --prod ngx-tableau"
   },
   "private": true,
   "dependencies": {

@@ -18,10 +18,10 @@
       "dom"
     ],
     "paths": {
-      "tableau": [
+      "ngx-tableau": [
         "dist/tableau"
       ],
-      "tableau/*": [
+      "ngx-tableau/*": [
         "dist/tableau/*"
       ]
     }

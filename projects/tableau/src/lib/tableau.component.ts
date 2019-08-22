@@ -53,7 +53,7 @@ export class TableauComponent implements OnInit, OnDestroy {
       height: '100%',
       ...this.filters,
       onFirstInteractive() {
-        // allows you to perform actions once the view has finished loading
+        // Allows you to perform actions once the view has finished loading
         // The viz is now ready and can be safely used.
       },
     };
@@ -85,23 +85,15 @@ export class TableauComponent implements OnInit, OnDestroy {
   createUrlFromInputs() {
     if (this.ticket && this.serverUrl && this.report) {
       if (this.site) {
-        this.tableauVizUrl = `${this.serverUrl}/trusted/${this.ticket}/t/${
-          this.site
-        }/views/${this.report}`;
+        this.tableauVizUrl = `${this.serverUrl}/trusted/${this.ticket}/t/${this.site}/views/${this.report}`;
         console.log(
-          `Using Tableau visualization URL for private multisite: ${
-            this.tableauVizUrl
-          }`
+          `Using Tableau visualization URL for private multisite: ${this.tableauVizUrl}`
         );
         return true;
       } else {
-        this.tableauVizUrl = `${this.serverUrl}/trusted/${this.ticket}/views/${
-          this.report
-        }`;
+        this.tableauVizUrl = `${this.serverUrl}/trusted/${this.ticket}/views/${this.report}`;
         console.log(
-          `Using Tableau visualization URL for private site: ${
-            this.tableauVizUrl
-          }`
+          `Using Tableau visualization URL for private site: ${this.tableauVizUrl}`
         );
         return true;
       }
