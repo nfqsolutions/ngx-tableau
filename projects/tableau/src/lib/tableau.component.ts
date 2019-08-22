@@ -17,7 +17,6 @@ declare var tableau: any;
   ],
 })
 export class TableauComponent implements OnInit, OnDestroy {
-  // TODO Iniciar README con roadmap e instucciones de arranque (especificación???)
   tableauViz;
   @Input() tableauVizUrl: string;
 
@@ -60,7 +59,6 @@ export class TableauComponent implements OnInit, OnDestroy {
     };
 
     if (this.checkRequiredInputs()) {
-      console.log(this.tableauVizUrl);
       // Usage of Tableau JS API to show visualization
       this.tableauViz = new tableau.Viz(
         placeholderDiv,
