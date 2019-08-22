@@ -3,7 +3,7 @@ export interface Scripts {
   src: string;
 }
 export const ScriptStore: Scripts[] = [
-  // Este script se puede cargar del tableau.js o del CDN
+  // This script can be loaded from tableau.js file or CDN on
   // https://public.tableau.com/javascripts/api/tableau-2.min.js
   {
     name: 'tableau',
