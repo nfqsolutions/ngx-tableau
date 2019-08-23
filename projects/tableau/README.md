@@ -1,6 +1,7 @@
 # ngx-tableau
 
 ngx-tableau is an Angular module that allows to embed a [Tableau](https://www.tableau.com) report in an Angular webapp.
+You can see a working **DEMO** [here](https://stackblitz.com/edit/ngx-tableau).
 
 ## Getting started
 
@@ -26,31 +27,83 @@ export class AppModule {}
 The most basic use is just passing a public Tableau visualization URL.
 
 ```html
+<!-- Using report URL directly on HTML -->
 <ngx-tableau
   tableauVizUrl="https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages"
 ></ngx-tableau>
 
+<!-- Using report URL defined on view controller -->
 <ngx-tableau [tableauVizUrl]="tableauVizUrl"></ngx-tableau>
 ```
 
 ## Configuration options
 
-You can pass configuration options to ngx-tableau using the following inputs:
+You can pass configuration options to ngx-tableau using the following inputs to the component:
 
-- **tableauVizUrl**: URL of a public Tableau visualization to embed. Example of use:
+### tableauVizUrl
+
+URL of a Tableau visualization to embed. Perfect for [public visualizations](https://public.tableau.com/gallery) or if you know the exact URL of the Tableau visualization. If this input is defined, the component will Example:
 
 ```html
 <ngx-tableau
-  tableauVizUrl="https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages?:embed=y&:embed_code_version=3&:loadOrderID=0&:display_count=yes"
+  tableauVizUrl="https://public.tableau.com/views/AroundtheAntarctic/MapClean"
 ></ngx-tableau>
 ```
 
-- **serverUrl**: URL base a Tableau visualization to embed.
+### filters
 
-- **ticket**: If your are using a private Tableau and you already have a way of authenticating users on the webpage or within your web application, you can avoid to sign in to Tableau Server and save your users from having to sign in twice by setting up trusted authentication.
+Filters to pass to the Tableau visualization. It should be a JSON object. Example:
 
-- **site**: if it is a multi-site site server.
+```html
+<ngx-tableau
+  tableauVizUrl="https://public.tableau.com/views/SuperSampleSuperstore/SuperDescriptive"
+  filters="{ Parameter3: 'Central' }"
+></ngx-tableau>
+```
 
-- **report**: the name of the workbook and the view separated by a slash.
+### serverUrl
 
-- **filters**: object with the choosen filters on the appropriate format for Tableau visualitation to be initialize with.
+URL of Tableau server. If this input is defined, it is mandatory to fill at least _report_ input. Example:
+
+```html
+<ngx-tableau
+  serverUrl="https://public.tableau.com"
+  report="AutonomousVehicles/AV"
+></ngx-tableau>
+```
+
+### report
+
+The name of the workbook and the view ypu want to embed separated by a slash. Mandatory if using _serverUrl_. Example:
+
+```html
+<ngx-tableau
+  serverUrl="https://public.tableau.com"
+  report="CityEyes/CityEyes"
+></ngx-tableau>
+```
+
+### ticket
+
+If you want to embed a private Tableau visuzalization skipping sign in page for your end users, you should set up [trusted authentication](https://help.tableau.com/current/server/en-us/trusted_auth.htm). Passing the obtained ticket to this option saves your users from having to sign in Tableau Server. Example:
+
+```html
+<ngx-tableau
+  serverUrl="https://myprivatetableau.mycompany.com"
+  report="SomeWorkbook/SomeView"
+  ticket="QUQub0EdSAaE39Eyg1oaLA==:9qT6oMvKUwXGr7TDpYKT9lvt"
+></ngx-tableau>
+```
+
+### site
+
+If it is a multi-site site server you will need to pass the name of the site. If you are using trusted authentication take into account that you should pass a _target_site_ attribute to the request to obtain the ticket or the ticket will not be valid to embed your visualization.
+
+```html
+<ngx-tableau
+  serverUrl="https://myprivatetableau.mycompany.com"
+  report="myWorkbook/myView"
+  ticket="QUQub0EdSAaE39Eyg1oaLA==:9qT6oMvKUwXGr7TDpYKT9lvt"
+  site="mySite"
+></ngx-tableau>
+```
