@@ -7,17 +7,24 @@ import { Component, ViewChild } from '@angular/core';
 describe('TableauComponent', () => {
   let component: TestHostComponent;
   let fixture: ComponentFixture<TestHostComponent>;
+  let compiled;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [TableauComponent, TestHostComponent],
-      providers: [ScriptService]
+      providers: [ScriptService],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestHostComponent);
     component = fixture.componentInstance;
+
+    compiled = fixture.debugElement.nativeElement;
+
+    console.log(fixture);
+    console.log(component);
+
     fixture.detectChanges();
   });
 
@@ -33,20 +40,21 @@ describe('TableauComponent', () => {
   it('should generate correct Tableau URL', () => {
     /* Set input as it would be done with
     `<ngx-tableau tableauVizUrl="https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages"></ngx-tableau>`*/
-    component.tableauComponent.tableauVizUrl = 'https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages';
+    component.tableauComponent.tableauVizUrl =
+      'https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages';
     expect(component.tableauComponent.tableauVizUrl).toEqual(
       'https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages'
     );
   });
 
-
   @Component({
     selector: `ngx-host-component`,
-    template: `<ngx-tableau></ngx-tableau>`
+    template: `
+      <ngx-tableau></ngx-tableau>
+    `,
   })
   class TestHostComponent {
     @ViewChild(TableauComponent)
     public tableauComponent: TableauComponent;
   }
 });
-
