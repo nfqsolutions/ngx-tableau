@@ -1,0 +1,13 @@
+stages:
+  - test
+
+image: node
+
+test:
+  stage: test
+  before_script:
+    - npm install
+  script:
+    - npm test
+
+# Add ci script on headless mode
