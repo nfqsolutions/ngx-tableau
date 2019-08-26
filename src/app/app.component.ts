@@ -9,13 +9,13 @@ export class AppComponent {
   tableauVizUrl =
     'https://public.tableau.com/views/SuperSampleSuperstore/SuperDescriptive';
 
-  serverUrl = '';
+  serverUrl = 'https://public.tableau.com';
 
   ticket = '';
 
   site = '';
 
-  report = '';
+  report = 'SuperSampleSuperstore/SuperDescriptive';
 
   filters = {};
 }
