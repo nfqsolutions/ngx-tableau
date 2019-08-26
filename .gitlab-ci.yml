@@ -1,13 +1,23 @@
+image: node:10
+
 stages:
+  - build
   - test
 
-image: node
+cache:
+  paths:
+    - node_modules/
+
+build:
+  stage: build
+  script:
+    - npm install
+  artifacts:
+    paths:
+      - node_modules/
 
 test:
   stage: test
-  before_script:
-    - npm install
   script:
     - npm test
-
 # Add ci script on headless mode
