@@ -4,6 +4,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TableauComponent } from './tableau.component';
 import { Component, ViewChild } from '@angular/core';
 
+const publicUrl = 'https://public.tableau.com';
+const privateUrl = 'https://private.tableau.com';
+const report = 'HurricaneMichaelPowerOutages/Outages';
+const ticket = 'm323AZ0XT3WZsR3fdapd_w==:1Y9a_sk3MLmoVmTpf0-An4z6';
+
 describe('TableauComponent', () => {
   let component: TestHostComponent;
   let fixture: ComponentFixture<TestHostComponent>;
@@ -81,19 +86,9 @@ describe('TableauComponent', () => {
     const spyOnCheckRequiredInputs = spyOn(
       tableauComponent,
       'checkRequiredInputs'
-    ).and.callThrough().and.returnValue(true);
-    // .and.returnValue(
-    //   (tableauComponent.createUrlFromInputs = () => {
-    //     return true;
-    //   })
-    // );
-
-    // const spyOnCreateUrlFromInputs = spyOn(
-    //   tableauComponent,
-    //   'createUrlFromInputs'
-    // ).and.callFake(() => {
-    //   return true;
-    // });
+    )
+      .and.callThrough()
+      .and.returnValue(true);
 
     tableauComponent.renderTableauViz();
 
@@ -101,13 +96,9 @@ describe('TableauComponent', () => {
 
     expect(spyOnRenderTableau).toHaveBeenCalled();
     expect(spyOnCheckRequiredInputs).toHaveBeenCalled();
-    // expect(spyOnCreateUrlFromInputs).toHaveBeenCalled();
     expect(spyOnCheckRequiredInputs()).toEqual(true);
     expect(tableauComponent.tableauViz).toBeDefined();
     expect(tableauComponent.tableauVizUrl).toBeDefined();
-    console.log(tableauComponent.tableauViz);
-    console.log('AQUIIII', tableauComponent);
-    console.log(tableauComponent.checkRequiredInputs;
   }));
 
   it('should not create a tableauViz if not required Inputs', () => {
@@ -126,7 +117,6 @@ describe('TableauComponent', () => {
     expect(spyOnCheckRequiredInputs).toHaveBeenCalled();
     expect(spyOnCheckRequiredInputs()).toEqual(false);
     expect(tableauComponent.tableauViz).toBeUndefined();
-    console.log('AQUIIII', tableauComponent);
   });
 
   it('should generate correct Tableau URL', () => {
@@ -142,8 +132,8 @@ describe('TableauComponent', () => {
 
   it('should create tableauURL for a public server only with required Arguments: serverUrl and report', () => {
     const spyOnConsole = spyOn(console, 'log');
-    tableauComponent.serverUrl = 'https://public.tableau.com';
-    tableauComponent.report = 'HurricaneMichaelPowerOutages/Outages';
+    tableauComponent.serverUrl = publicUrl;
+    tableauComponent.report = report;
 
     tableauComponent.checkRequiredInputs();
 
@@ -153,15 +143,16 @@ describe('TableauComponent', () => {
       'https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages'
     );
     expect(spyOnConsole).toHaveBeenCalledWith(
-      `Using Tableau visualization URL for public site: ${tableauComponent.tableauVizUrl}`);
+      `Using Tableau visualization URL for public site: ${tableauComponent.tableauVizUrl}`
+    );
     expect(tableauComponent.createUrlFromInputs()).toBe(true);
   });
 
   it('should create tableauURL for a private server only with required Arguments: serverURL, ticket and report', () => {
     const spyOnConsole = spyOn(console, 'log');
-    tableauComponent.serverUrl = 'https://private.tableau.com';
-    tableauComponent.report = 'HurricaneMichaelPowerOutages/Outages';
-    tableauComponent.ticket = 'm323AZ0XT3WZsR3fdapd_w==:1Y9a_sk3MLmoVmTpf0-An4z6';
+    tableauComponent.serverUrl = privateUrl;
+    tableauComponent.report = report;
+    tableauComponent.ticket = ticket;
 
     tableauComponent.createUrlFromInputs();
 
@@ -169,16 +160,17 @@ describe('TableauComponent', () => {
       'https://private.tableau.com/trusted/m323AZ0XT3WZsR3fdapd_w==:1Y9a_sk3MLmoVmTpf0-An4z6/views/HurricaneMichaelPowerOutages/Outages'
     );
     expect(spyOnConsole).toHaveBeenCalledWith(
-      `Using Tableau visualization URL for private site: ${tableauComponent.tableauVizUrl}`);
-      expect(tableauComponent.createUrlFromInputs()).toBe(true);
+      `Using Tableau visualization URL for private site: ${tableauComponent.tableauVizUrl}`
+    );
+    expect(tableauComponent.createUrlFromInputs()).toBe(true);
   });
 
   it('should create tableauURL for a private multiple site server only with required Arguments: serverURL, ticket, site and report', () => {
     const spyOnConsole = spyOn(console, 'log');
 
-    tableauComponent.serverUrl = 'https://private.tableau.com';
-    tableauComponent.report = 'HurricaneMichaelPowerOutages/Outages';
-    tableauComponent.ticket = 'm323AZ0XT3WZsR3fdapd_w==:1Y9a_sk3MLmoVmTpf0-An4z6';
+    tableauComponent.serverUrl = privateUrl;
+    tableauComponent.report = report;
+    tableauComponent.ticket = ticket;
     tableauComponent.site = 'site';
 
     tableauComponent.createUrlFromInputs();
@@ -187,7 +179,8 @@ describe('TableauComponent', () => {
       'https://private.tableau.com/trusted/m323AZ0XT3WZsR3fdapd_w==:1Y9a_sk3MLmoVmTpf0-An4z6/t/site/views/HurricaneMichaelPowerOutages/Outages'
     );
     expect(spyOnConsole).toHaveBeenCalledWith(
-      `Using Tableau visualization URL for private multisite: ${tableauComponent.tableauVizUrl}`);
+      `Using Tableau visualization URL for private multisite: ${tableauComponent.tableauVizUrl}`
+    );
     expect(tableauComponent.createUrlFromInputs()).toBe(true);
   });
 
@@ -195,18 +188,18 @@ describe('TableauComponent', () => {
     const spyOnConsole = spyOn(console, 'error');
 
     tableauComponent.serverUrl = '';
-    tableauComponent.report = 'HurricaneMichaelPowerOutages/Outages';
-    tableauComponent.ticket = 'm323AZ0XT3WZsR3fdapd_w==:1Y9a_sk3MLmoVmTpf0-An4z6';
+    tableauComponent.report = report;
+    tableauComponent.ticket = ticket;
     tableauComponent.site = 'site';
 
     tableauComponent.createUrlFromInputs();
 
     expect(tableauComponent.tableauVizUrl).toBeUndefined();
     expect(spyOnConsole).toHaveBeenCalledWith(
-      'One or both of the following parameters are missing: serverUrl or report');
+      'One or both of the following parameters are missing: serverUrl or report'
+    );
     expect(tableauComponent.createUrlFromInputs()).toBe(false);
   });
-
 
   it('should disposed tableauViz after distroying', () => {
     TestBed.createComponent(TableauComponent).detectChanges();
@@ -214,8 +207,8 @@ describe('TableauComponent', () => {
     tableauComponent.tableauVizUrl =
       'https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages';
 
-
-      const spyOnNgDestroy = spyOn( tableauComponent,
+    const spyOnNgDestroy = spyOn(
+      tableauComponent,
       'ngOnDestroy'
     ).and.callThrough();
 
