@@ -82,23 +82,31 @@ export class TableauComponent implements OnInit, OnDestroy {
     return true;
   }
 
+  multisiteUrlOrNot() {
+    if (this.site) {
+      return `/t/${this.site}/views/${this.report}`;
+    } else {
+      return `/views/${this.report}`;
+    }
+  }
+
   createUrlFromInputs() {
     if (this.ticket && this.serverUrl && this.report) {
-      if (this.site) {
-        this.tableauVizUrl = `${this.serverUrl}/trusted/${this.ticket}/t/${this.site}/views/${this.report}`;
-        console.log(
-          `Using Tableau visualization URL for private multisite: ${this.tableauVizUrl}`
-        );
-        return true;
-      } else {
-        this.tableauVizUrl = `${this.serverUrl}/trusted/${this.ticket}/views/${this.report}`;
-        console.log(
-          `Using Tableau visualization URL for private site: ${this.tableauVizUrl}`
-        );
-        return true;
-      }
+      const endOfUrl = this.multisiteUrlOrNot();
+
+      this.tableauVizUrl = `${this.serverUrl}/trusted/${
+        this.ticket
+      }${endOfUrl}`;
+      console.log(
+        `Using Tableau visualization URL for private site: ${
+          this.tableauVizUrl
+        }`
+      );
+      return true;
     } else if (this.serverUrl && this.report) {
-      this.tableauVizUrl = `${this.serverUrl}/views/${this.report}`;
+      const endOfUrl = this.multisiteUrlOrNot();
+
+      this.tableauVizUrl = `${this.serverUrl}${endOfUrl}`;
       console.log(
         `Using Tableau visualization URL for public site: ${this.tableauVizUrl}`
       );
