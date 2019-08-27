@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test ngx-tableau",
+    "test-ci": "ng test ngx-tableau --watch=false",
     "test-container": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
