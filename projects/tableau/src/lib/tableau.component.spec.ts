@@ -1,6 +1,10 @@
 import { ScriptService } from './scripts.service';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import {
+  async,
+  ComponentFixture,
+  TestBed,
+  inject,
+} from '@angular/core/testing';
 import { TableauComponent } from './tableau.component';
 import { Component, ViewChild } from '@angular/core';
 
@@ -29,11 +33,6 @@ describe('TableauComponent', () => {
 
     tableauComponent = TestBed.createComponent(TableauComponent)
       .componentInstance;
-
-    console.log(fixture);
-    console.log(component);
-    console.log(compiled);
-    console.log('tableaucomponent', tableauComponent);
 
     fixture.detectChanges();
   });
@@ -74,6 +73,69 @@ describe('TableauComponent', () => {
     expect(spyOnCheckRequiredInputs).toHaveBeenCalled();
   });
 
+  it('should call createUrlFromInputs method if not tableauVizUrl', () => {
+    const spyOnCreateUrlFromInputs = spyOn(
+      tableauComponent,
+      'createUrlFromInputs'
+    ).and.callThrough();
+
+    tableauComponent.renderTableauViz();
+
+    expect(spyOnCreateUrlFromInputs).toHaveBeenCalled();
+  });
+
+  it('should call multisiteUrlOrNot method when creating Url from inputs', () => {
+    tableauComponent.serverUrl = privateUrl;
+    tableauComponent.report = report;
+    tableauComponent.ticket = ticket;
+
+    const spyOnMultisiteUrlOrNot = spyOn(
+      tableauComponent,
+      'multisiteUrlOrNot'
+    ).and.callThrough();
+
+    tableauComponent.renderTableauViz();
+
+    expect(spyOnMultisiteUrlOrNot).toHaveBeenCalled();
+  });
+
+  it('should multisiteUrlOrNot method return an Url containing the "site" if is a multiplesite server', () => {
+    tableauComponent.serverUrl = privateUrl;
+    tableauComponent.report = report;
+    tableauComponent.ticket = ticket;
+    tableauComponent.site = 'site';
+
+    const spyOnMultisiteUrlOrNot = spyOn(
+      tableauComponent,
+      'multisiteUrlOrNot'
+    ).and.callThrough();
+
+    tableauComponent.renderTableauViz();
+
+    expect(spyOnMultisiteUrlOrNot).toHaveBeenCalled();
+    expect(tableauComponent.multisiteUrlOrNot()).toEqual(
+      '/t/site/views/HurricaneMichaelPowerOutages/Outages'
+    );
+  });
+
+  it('should multisiteUrlOrNot method return an Url with no "site"', () => {
+    tableauComponent.serverUrl = privateUrl;
+    tableauComponent.report = report;
+    tableauComponent.ticket = ticket;
+
+    const spyOnMultisiteUrlOrNot = spyOn(
+      tableauComponent,
+      'multisiteUrlOrNot'
+    ).and.callThrough();
+
+    tableauComponent.renderTableauViz();
+
+    expect(spyOnMultisiteUrlOrNot).toHaveBeenCalled();
+    expect(tableauComponent.multisiteUrlOrNot()).toEqual(
+      '/views/HurricaneMichaelPowerOutages/Outages'
+    );
+  });
+
   it('should create a tableauViz if contains any required Inputs', async(() => {
     tableauComponent.tableauVizUrl =
       'https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages';
@@ -91,8 +153,6 @@ describe('TableauComponent', () => {
       .and.returnValue(true);
 
     tableauComponent.renderTableauViz();
-
-    TestBed.createComponent(TableauComponent).detectChanges();
 
     expect(spyOnRenderTableau).toHaveBeenCalled();
     expect(spyOnCheckRequiredInputs).toHaveBeenCalled();
@@ -132,6 +192,11 @@ describe('TableauComponent', () => {
 
   it('should create tableauURL for a public server only with required Arguments: serverUrl and report', () => {
     const spyOnConsole = spyOn(console, 'log');
+    const spyOnCreateUrlFromInputs = spyOn(
+      tableauComponent,
+      'createUrlFromInputs'
+    ).and.callThrough();
+
     tableauComponent.serverUrl = publicUrl;
     tableauComponent.report = report;
 
@@ -139,52 +204,67 @@ describe('TableauComponent', () => {
 
     expect(tableauComponent.serverUrl).toBeDefined();
     expect(tableauComponent.report).toBeDefined();
+    expect(tableauComponent.tableauVizUrl).toBeDefined();
     expect(tableauComponent.tableauVizUrl).toEqual(
       'https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages'
     );
     expect(spyOnConsole).toHaveBeenCalledWith(
       `Using Tableau visualization URL for public site: ${tableauComponent.tableauVizUrl}`
     );
+    expect(spyOnCreateUrlFromInputs).toHaveBeenCalled();
     expect(tableauComponent.createUrlFromInputs()).toBe(true);
   });
 
   it('should create tableauURL for a private server only with required Arguments: serverURL, ticket and report', () => {
     const spyOnConsole = spyOn(console, 'log');
+    const spyOnCreateUrlFromInputs = spyOn(
+      tableauComponent,
+      'createUrlFromInputs'
+    ).and.callThrough();
+
     tableauComponent.serverUrl = privateUrl;
     tableauComponent.report = report;
     tableauComponent.ticket = ticket;
 
-    tableauComponent.createUrlFromInputs();
+    tableauComponent.checkRequiredInputs();
 
+    expect(tableauComponent.tableauVizUrl).toBeDefined();
     expect(tableauComponent.tableauVizUrl).toEqual(
       'https://private.tableau.com/trusted/m323AZ0XT3WZsR3fdapd_w==:1Y9a_sk3MLmoVmTpf0-An4z6/views/HurricaneMichaelPowerOutages/Outages'
     );
     expect(spyOnConsole).toHaveBeenCalledWith(
       `Using Tableau visualization URL for private site: ${tableauComponent.tableauVizUrl}`
     );
+    expect(spyOnCreateUrlFromInputs).toHaveBeenCalled();
     expect(tableauComponent.createUrlFromInputs()).toBe(true);
   });
 
   it('should create tableauURL for a private multiple site server only with required Arguments: serverURL, ticket, site and report', () => {
     const spyOnConsole = spyOn(console, 'log');
+    const spyOnCreateUrlFromInputs = spyOn(
+      tableauComponent,
+      'createUrlFromInputs'
+    ).and.callThrough();
 
     tableauComponent.serverUrl = privateUrl;
     tableauComponent.report = report;
     tableauComponent.ticket = ticket;
     tableauComponent.site = 'site';
 
-    tableauComponent.createUrlFromInputs();
+    tableauComponent.checkRequiredInputs();
 
+    expect(tableauComponent.tableauVizUrl).toBeDefined();
     expect(tableauComponent.tableauVizUrl).toEqual(
       'https://private.tableau.com/trusted/m323AZ0XT3WZsR3fdapd_w==:1Y9a_sk3MLmoVmTpf0-An4z6/t/site/views/HurricaneMichaelPowerOutages/Outages'
     );
     expect(spyOnConsole).toHaveBeenCalledWith(
-      `Using Tableau visualization URL for private multisite: ${tableauComponent.tableauVizUrl}`
+      `Using Tableau visualization URL for private site: ${tableauComponent.tableauVizUrl}`
     );
+    expect(spyOnCreateUrlFromInputs).toHaveBeenCalled();
     expect(tableauComponent.createUrlFromInputs()).toBe(true);
   });
 
-  it('should throught a console.error if one of the required inputs is missing', () => {
+  it('should throw a console.error if one of the required inputs is missing', () => {
     const spyOnConsole = spyOn(console, 'error');
 
     tableauComponent.serverUrl = '';
@@ -202,8 +282,6 @@ describe('TableauComponent', () => {
   });
 
   it('should disposed tableauViz after distroying', () => {
-    TestBed.createComponent(TableauComponent).detectChanges();
-
     tableauComponent.tableauVizUrl =
       'https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages';
 
@@ -214,11 +292,84 @@ describe('TableauComponent', () => {
 
     tableauComponent.renderTableauViz();
 
+    const spyOnDispose = spyOn(
+      tableauComponent.tableauViz,
+      'dispose'
+    ).and.callThrough();
+
     tableauComponent.ngOnDestroy();
 
     expect(spyOnNgDestroy).toHaveBeenCalled();
+    expect(spyOnDispose).toHaveBeenCalled();
+    console.log('VIZ', tableauComponent.tableauViz);
+  });
 
-    // expect(tableauComponent.tableauViz).toBe(undefined);
+  it('should has a ScriptService injected in the constructor', inject(
+    [ScriptService],
+    (scriptService: ScriptService) => {
+      expect(scriptService).toBeDefined();
+    }
+  ));
+
+  it('should call load method onscriptService in the constructor', inject(
+    [ScriptService],
+    (scriptService: ScriptService) => {
+      const spyOnLoad = spyOn(scriptService, 'load').and.callThrough();
+      TestBed.createComponent(TableauComponent);
+
+      expect(spyOnLoad).toHaveBeenCalled();
+      expect(spyOnLoad).toHaveBeenCalledWith('tableau');
+    }
+  ));
+
+  it('should call load method on scriptService in the constructor and throw error', inject(
+    [ScriptService],
+    async (scriptService: ScriptService) => {
+      const spyOnLoad = spyOn(scriptService, 'load')
+        .and.callThrough()
+        .and.returnValue(Promise.reject('testing error'));
+
+      const spyOnCatch = spyOn(scriptService.load(), 'catch').and.callThrough();
+
+      TestBed.createComponent(TableauComponent);
+
+      expect(spyOnLoad).toHaveBeenCalled();
+
+      setTimeout(async () => {
+        console.log('uuuuuuuuuuu', spyOnCatch());
+        await expect(spyOnCatch).toHaveBeenCalled();
+      }, 500);
+    }
+  ));
+
+  it('should call load method on scriptService in the constructor and then renderViz method', inject(
+    [ScriptService],
+    (scriptService: ScriptService) => {
+      const spyOnLoad = spyOn(scriptService, 'load').and.callThrough();
+
+      TestBed.createComponent(TableauComponent);
+      const spyOnRenderViz = spyOn(
+        tableauComponent,
+        'renderTableauViz'
+      ).and.callThrough();
+
+      expect(spyOnLoad).toHaveBeenCalled();
+      expect(spyOnLoad).toHaveBeenCalledWith('tableau');
+
+      setTimeout(async () => {
+        expect(spyOnRenderViz).toHaveBeenCalled();
+      }, 500);
+
+      // await expect(spyOnRenderViz).toHaveBeenCalled();
+    }
+  ));
+
+  it('should do nothing on ngOnInit', () => {
+    const spyNgOnInit = spyOn(tableauComponent, 'ngOnInit');
+
+    tableauComponent.ngOnInit();
+
+    expect(spyNgOnInit).toHaveBeenCalled();
   });
 
   @Component({
