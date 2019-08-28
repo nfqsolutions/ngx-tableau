@@ -6,6 +6,4 @@ build_images:
   stage: build_images
   image: miglesiassarria/sonar-scanner
   script:
-    - sonar-scanner -Dsonar.host.url=http://sonar.nfqsolutions.es:9900 -Dsonar.projectKey=ngx-tableau -Dsonar.login=b70ea19b709786345699f67f0d12eabae3e36f1c -Dsonar.exclusions=app/bower_components/**,app/assets/**,app/components/** -Dsonar.sources=app -Dsonar.ts.tslint.projectPath=tslint.json
-
-
+    - sonar-scanner -Dsonar.host.url=http://sonar.nfqsolutions.es:9900 -Dsonar.projectKey=ngx-tableau -Dsonar.login=b70ea19b709786345699f67f0d12eabae3e36f1c Dsonar.sources=. -Dsonar.ts.tslint.projectPath=tslint.json
