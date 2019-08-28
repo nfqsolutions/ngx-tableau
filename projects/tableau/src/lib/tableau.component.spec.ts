@@ -41,7 +41,7 @@ describe('Tableau Component Integration', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should generate correct Tableau URL using tableauVizUrl', () => {
+  it('should generate correct Tableau URL using tableauVizUrl', async(() => {
     /* Set input as it would be done with
     `<ngx-tableau [tableauVizUrl]="'https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages'"></ngx-tableau>`*/
     component.tableauComponent.tableauVizUrl =
@@ -52,9 +52,9 @@ describe('Tableau Component Integration', () => {
     expect(component.tableauComponent.tableauVizUrl).toEqual(
       'https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages'
     );
-  });
+  }));
 
-  it('should generate correct Tableau URL using serverUrl and report', () => {
+  it('should generate correct Tableau URL using serverUrl and report', async(() => {
     /* Set input as it would be done with
     `<ngx-tableau [serverUrl]="publicUrl" [report]="report"></ngx-tableau>`*/
     component.tableauComponent.serverUrl = publicUrl;
@@ -62,14 +62,12 @@ describe('Tableau Component Integration', () => {
 
     component.tableauComponent.renderTableauViz();
 
-    console.log(component.tableauComponent.tableauVizUrl);
-
     expect(component.tableauComponent.tableauVizUrl).toEqual(
       'https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages'
     );
-  });
+  }));
 
-  it('should generate correct Tableau URL using serverUrl, report and ticket', () => {
+  it('should generate correct Tableau URL using serverUrl, report and ticket', async(() => {
     /* Set input as it would be done with
     `<ngx-tableau [serverUrl]="privateUrl" [ticket]="ticket" [report]="report"></ngx-tableau>`*/
     component.tableauComponent.serverUrl = privateUrl;
@@ -78,14 +76,12 @@ describe('Tableau Component Integration', () => {
 
     component.tableauComponent.renderTableauViz();
 
-    console.log(component.tableauComponent.tableauVizUrl);
-
     expect(component.tableauComponent.tableauVizUrl).toEqual(
       'https://private.tableau.com/trusted/m323AZ0XT3WZsR3fdapd_w==:1Y9a_sk3MLmoVmTpf0-An4z6/views/HurricaneMichaelPowerOutages/Outages'
     );
-  });
+  }));
 
-  it('should generate correct Tableau URL using serverUrl, report, ticket and site', () => {
+  it('should generate correct Tableau URL using serverUrl, report, ticket and site', async(() => {
     /* Set input as it would be done with
     `<ngx-tableau [serverUrl]="privateUrl" [ticket]="ticket" [site]="'site" [report]="report" "></ngx-tableau>`*/
     component.tableauComponent.serverUrl = privateUrl;
@@ -95,12 +91,10 @@ describe('Tableau Component Integration', () => {
 
     component.tableauComponent.renderTableauViz();
 
-    console.log(component.tableauComponent.tableauVizUrl);
-
     expect(component.tableauComponent.tableauVizUrl).toEqual(
       'https://private.tableau.com/trusted/m323AZ0XT3WZsR3fdapd_w==:1Y9a_sk3MLmoVmTpf0-An4z6/t/site/views/HurricaneMichaelPowerOutages/Outages'
     );
-  });
+  }));
 
   @Component({
     selector: `ngx-host-component`,
@@ -147,7 +141,7 @@ describe('TableauComponent', () => {
     expect(tableauElement.className).toEqual('ngx-tableau-viz');
   });
 
-  it('should call createUrlFromInputs method if not tableauVizUrl', () => {
+  it('should call createUrlFromInputs method if not tableauVizUrl', async(() => {
     const spyOnCreateUrlFromInputs = spyOn(
       tableauComponent,
       'createUrlFromInputs'
@@ -160,9 +154,9 @@ describe('TableauComponent', () => {
     tableauComponent.renderTableauViz();
 
     expect(spyOnCreateUrlFromInputs).toHaveBeenCalled();
-  });
+  }));
 
-  it('should call multisiteUrlOrNot method when creating Url from inputs', () => {
+  it('should call multisiteUrlOrNot method when creating Url from inputs', async(() => {
     tableauComponent.serverUrl = privateUrl;
     tableauComponent.report = report;
     tableauComponent.ticket = ticket;
@@ -175,9 +169,9 @@ describe('TableauComponent', () => {
     tableauComponent.renderTableauViz();
 
     expect(spyOnMultisiteUrlOrNot).toHaveBeenCalled();
-  });
+  }));
 
-  it('should multisiteUrlOrNot method return an Url containing the "site" if is a multiplesite server', () => {
+  it('should multisiteUrlOrNot method return an Url containing the "site" if is a multiplesite server', async(() => {
     tableauComponent.serverUrl = privateUrl;
     tableauComponent.report = report;
     tableauComponent.ticket = ticket;
@@ -194,9 +188,9 @@ describe('TableauComponent', () => {
     expect(tableauComponent.multisiteUrlOrNot()).toEqual(
       '/t/site/views/HurricaneMichaelPowerOutages/Outages'
     );
-  });
+  }));
 
-  it('should multisiteUrlOrNot method return an Url with no "site"', () => {
+  it('should multisiteUrlOrNot method return an Url with no "site"', async(() => {
     tableauComponent.serverUrl = privateUrl;
     tableauComponent.report = report;
     tableauComponent.ticket = ticket;
@@ -212,7 +206,7 @@ describe('TableauComponent', () => {
     expect(tableauComponent.multisiteUrlOrNot()).toEqual(
       '/views/HurricaneMichaelPowerOutages/Outages'
     );
-  });
+  }));
 
   it('should not create a tableauViz if not required Inputs', () => {
     tableauComponent.tableauVizUrl = '';
@@ -232,7 +226,7 @@ describe('TableauComponent', () => {
     expect(tableauComponent.tableauViz).toBeUndefined();
   });
 
-  it('should throw a console.error if one of the required inputs is missing', () => {
+  it('should throw a console.error if one of the required inputs is missing', async(() => {
     const spyOnConsole = spyOn(console, 'error');
 
     tableauComponent.serverUrl = '';
@@ -247,9 +241,9 @@ describe('TableauComponent', () => {
       'One or both of the following parameters are missing: serverUrl or report'
     );
     expect(tableauComponent.createUrlFromInputs()).toBe(false);
-  });
+  }));
 
-  it('should disposed tableauViz after distroying', () => {
+  it('should disposed tableauViz after distroying', async(() => {
     tableauComponent.tableauVizUrl =
       'https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages';
 
@@ -269,7 +263,7 @@ describe('TableauComponent', () => {
 
     expect(spyOnNgDestroy).toHaveBeenCalled();
     expect(spyOnDispose).toHaveBeenCalled();
-  });
+  }));
 
   it('should do nothing on ngOnInit', () => {
     const spyNgOnInit = spyOn(tableauComponent, 'ngOnInit');
