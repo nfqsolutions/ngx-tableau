@@ -5,6 +5,7 @@ import { TableauModule } from 'ngx-tableau';
 describe('AppComponent', () => {
   let app: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
+  let compiled;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -16,6 +17,8 @@ describe('AppComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent);
     app = fixture.debugElement.componentInstance;
+
+    compiled = fixture.debugElement.nativeElement;
     console.log(fixture);
     console.log(app);
     fixture.detectChanges();
@@ -24,4 +27,10 @@ describe('AppComponent', () => {
   it('should create the app', async(() => {
     expect(app).toBeTruthy();
   }));
+
+  it('should contain an ngx-tableau tag', () => {
+    const tableauComponentTag = document.querySelector('ngx-tableau');
+
+    expect(tableauComponentTag).toBeTruthy();
+  });
 });
