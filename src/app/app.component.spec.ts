@@ -5,7 +5,6 @@ import { TableauModule } from 'ngx-tableau';
 describe('AppComponent', () => {
   let app: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
-  let compiled;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -18,9 +17,6 @@ describe('AppComponent', () => {
     fixture = TestBed.createComponent(AppComponent);
     app = fixture.debugElement.componentInstance;
 
-    compiled = fixture.debugElement.nativeElement;
-    console.log(fixture);
-    console.log(app);
     fixture.detectChanges();
   });
 
