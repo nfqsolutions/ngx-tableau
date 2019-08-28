@@ -1,9 +1,30 @@
+image: node:10
+
 stages:
-  - build_images
+  - sonar-scanner
+  - build
+  - test
 
+cache:
+  paths:
+    - node_modules/
 
-build_images:
-  stage: build_images
+sonar-scanner:
+  stage: sonar-scanner
   image: miglesiassarria/sonar-scanner
   script:
-    - sonar-scanner -Dsonar.host.url=http://sonar.nfqsolutions.es:9900 -Dsonar.projectKey=ngx-tableau -Dsonar.login=b70ea19b709786345699f67f0d12eabae3e36f1c -Dsonar.sources=src -Dsonar.ts.tslint.projectPath=tslint.json
+    - sonar-scanner -Dsonar.host.url=http://sonar.nfqsolutions.es:9900 -Dsonar.projectKey=ngx-tableau -Dsonar.login=b70ea19b709786345699f67f0d12eabae3e36f1c -Dsonar.sources=projects/tableau/src -Dsonar.ts.tslint.projectPath=projects/tableau/tslint.json
+
+build:
+  stage: build
+  script:
+    - npm install
+  artifacts:
+    paths:
+      - node_modules/
+
+test:
+  stage: test
+  script:
+    - npm run test-ci
+# Add ci script on headless mode
