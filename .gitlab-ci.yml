@@ -1,23 +1,11 @@
-image: node:10
-
 stages:
-  - build
-  - test
+  - build_images
 
-cache:
-  paths:
-    - node_modules/
 
-build:
-  stage: build
+build_images:
+  stage: build_images
+  image: miglesiassarria/sonar-scanner
   script:
-    - npm install
-  artifacts:
-    paths:
-      - node_modules/
+    - sonar-scanner -Dsonar.host.url=http://sonar.nfqsolutions.es:9900 -Dsonar.projectKey=ngx-tableau -Dsonar.login=b70ea19b709786345699f67f0d12eabae3e36f1c -Dsonar.exclusions=app/bower_components/**,app/assets/**,app/components/** -Dsonar.sources=app -Dsonar.ts.tslint.projectPath=tslint.json
 
-test:
-  stage: test
-  script:
-    - npm run test-ci
-# Add ci script on headless mode
+
