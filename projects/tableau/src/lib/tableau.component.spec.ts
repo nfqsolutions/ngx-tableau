@@ -41,6 +41,19 @@ describe('Tableau Component Integration', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should generate correct Tableau URL using tableauVizUrl', () => {
+    /* Set input as it would be done with
+    `<ngx-tableau [tableauVizUrl]="'https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages'"></ngx-tableau>`*/
+    component.tableauComponent.tableauVizUrl =
+      'https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages';
+
+    component.tableauComponent.renderTableauViz();
+
+    expect(component.tableauComponent.tableauVizUrl).toEqual(
+      'https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages'
+    );
+  });
+
   it('should generate correct Tableau URL using serverUrl and report', () => {
     /* Set input as it would be done with
     `<ngx-tableau [serverUrl]="publicUrl" [report]="report"></ngx-tableau>`*/
@@ -112,12 +125,12 @@ describe('TableauComponent', () => {
     }).compileComponents();
   }));
 
-  beforeEach(() => {
+  beforeEach(async(() => {
     fixtureComponent = TestBed.createComponent(TableauComponent);
     tableauComponent = fixtureComponent.componentInstance;
 
     fixtureComponent.detectChanges();
-  });
+  }));
 
   afterEach(() => {
     tableauComponent.ngOnDestroy();
