@@ -4,6 +4,8 @@ import {
   ComponentFixture,
   TestBed,
   inject,
+  fakeAsync,
+  flushMicrotasks,
 } from '@angular/core/testing';
 import { TableauComponent } from './tableau.component';
 import { Component, ViewChild } from '@angular/core';
@@ -78,6 +80,10 @@ describe('TableauComponent', () => {
       tableauComponent,
       'createUrlFromInputs'
     ).and.callThrough();
+
+    tableauComponent.tableauVizUrl = '';
+    tableauComponent.serverUrl = publicUrl;
+    tableauComponent.report = report;
 
     tableauComponent.renderTableauViz();
 
@@ -179,14 +185,22 @@ describe('TableauComponent', () => {
     expect(tableauComponent.tableauViz).toBeUndefined();
   });
 
-  it('should generate correct Tableau URL', () => {
+  it('should generate correct Tableau URL if tableauVizUrl is define and print a console msg', () => {
     /* Set input as it would be done with
     `<ngx-tableau tableauVizUrl="https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages"></ngx-tableau>`*/
-    component.tableauComponent.tableauVizUrl =
+    tableauComponent.tableauVizUrl =
       'https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages';
 
-    expect(component.tableauComponent.tableauVizUrl).toEqual(
+    const spyOnConsole = spyOn(console, 'log').and.callThrough();
+
+    tableauComponent.renderTableauViz();
+
+    expect(tableauComponent.tableauVizUrl).toEqual(
       'https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages'
+    );
+    expect(spyOnConsole).toHaveBeenCalled();
+    expect(spyOnConsole).toHaveBeenCalledWith(
+      `Using Tableau visualization URL: ${tableauComponent.tableauVizUrl}`
     );
   });
 
@@ -301,68 +315,7 @@ describe('TableauComponent', () => {
 
     expect(spyOnNgDestroy).toHaveBeenCalled();
     expect(spyOnDispose).toHaveBeenCalled();
-    console.log('VIZ', tableauComponent.tableauViz);
   });
-
-  it('should has a ScriptService injected in the constructor', inject(
-    [ScriptService],
-    (scriptService: ScriptService) => {
-      expect(scriptService).toBeDefined();
-    }
-  ));
-
-  it('should call load method onscriptService in the constructor', inject(
-    [ScriptService],
-    (scriptService: ScriptService) => {
-      const spyOnLoad = spyOn(scriptService, 'load').and.callThrough();
-      TestBed.createComponent(TableauComponent);
-
-      expect(spyOnLoad).toHaveBeenCalled();
-      expect(spyOnLoad).toHaveBeenCalledWith('tableau');
-    }
-  ));
-
-  it('should call load method on scriptService in the constructor and throw error', inject(
-    [ScriptService],
-    async (scriptService: ScriptService) => {
-      const spyOnLoad = spyOn(scriptService, 'load')
-        .and.callThrough()
-        .and.returnValue(Promise.reject('testing error'));
-
-      const spyOnCatch = spyOn(scriptService.load(), 'catch').and.callThrough();
-
-      TestBed.createComponent(TableauComponent);
-
-      expect(spyOnLoad).toHaveBeenCalled();
-
-      setTimeout(async () => {
-        console.log('uuuuuuuuuuu', spyOnCatch());
-        await expect(spyOnCatch).toHaveBeenCalled();
-      }, 500);
-    }
-  ));
-
-  it('should call load method on scriptService in the constructor and then renderViz method', inject(
-    [ScriptService],
-    (scriptService: ScriptService) => {
-      const spyOnLoad = spyOn(scriptService, 'load').and.callThrough();
-
-      TestBed.createComponent(TableauComponent);
-      const spyOnRenderViz = spyOn(
-        tableauComponent,
-        'renderTableauViz'
-      ).and.callThrough();
-
-      expect(spyOnLoad).toHaveBeenCalled();
-      expect(spyOnLoad).toHaveBeenCalledWith('tableau');
-
-      setTimeout(async () => {
-        expect(spyOnRenderViz).toHaveBeenCalled();
-      }, 500);
-
-      // await expect(spyOnRenderViz).toHaveBeenCalled();
-    }
-  ));
 
   it('should do nothing on ngOnInit', () => {
     const spyNgOnInit = spyOn(tableauComponent, 'ngOnInit');
@@ -382,4 +335,97 @@ describe('TableauComponent', () => {
     @ViewChild(TableauComponent)
     public tableauComponent: TableauComponent;
   }
+});
+
+describe('Tableau Component constructor', () => {
+  let tableauComponent: TableauComponent;
+  let fixture: ComponentFixture<TableauComponent>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [TableauComponent],
+      providers: [ScriptService],
+    }).compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(TableauComponent);
+    tableauComponent = fixture.componentInstance;
+
+    fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    tableauComponent.ngOnDestroy();
+  });
+
+  it('should has a ScriptService injected in the constructor', inject(
+    [ScriptService],
+    (scriptService: ScriptService) => {
+      expect(scriptService).toBeDefined();
+    }
+  ));
+
+  it('should call load method on scriptService in the constructor', inject(
+    [ScriptService],
+    (scriptService: ScriptService) => {
+      const spyOnLoad = spyOn(scriptService, 'load').and.callThrough();
+      TestBed.createComponent(TableauComponent);
+
+      expect(spyOnLoad).toHaveBeenCalled();
+      expect(spyOnLoad).toHaveBeenCalledWith('tableau');
+    }
+  ));
+
+  it('should call load method on scriptService in the constructor and throw error', inject(
+    [ScriptService],
+    fakeAsync((scriptService: ScriptService) => {
+      const spyOnLoad = spyOn(scriptService, 'load')
+        .and.callThrough()
+        .and.returnValue(
+          Promise.reject(new Error('testing error')).catch(error => {
+            console.error('Promise Rejected', error);
+            scriptService.load().catch();
+          })
+        );
+
+      const spyOnCatch = spyOn(
+        scriptService.load(''),
+        'catch'
+      ).and.callThrough();
+
+      TestBed.createComponent(TableauComponent);
+      flushMicrotasks();
+
+      expect(spyOnLoad).toHaveBeenCalled();
+      flushMicrotasks();
+
+      expect(spyOnCatch).toHaveBeenCalled();
+    })
+  ));
+
+  it('should call load method on scriptService in the constructor and then renderViz method', inject(
+    [ScriptService],
+    fakeAsync((scriptService: ScriptService) => {
+      const spyOnLoad = spyOn(scriptService, 'load')
+        .and.callThrough()
+        .and.returnValue(
+          Promise.resolve(true).then(result => {
+            console.log('Promise Resolved');
+            tableauComponent.renderTableauViz();
+          })
+        );
+
+      const spyOnRenderViz = spyOn(
+        tableauComponent,
+        'renderTableauViz'
+      ).and.callThrough();
+      TestBed.createComponent(TableauComponent);
+      flushMicrotasks();
+
+      expect(spyOnLoad).toHaveBeenCalled();
+      expect(spyOnLoad).toHaveBeenCalledWith('tableau');
+      expect(spyOnRenderViz).toHaveBeenCalled();
+    })
+  ));
 });
