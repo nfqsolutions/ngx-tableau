@@ -83,7 +83,7 @@ describe('Tableau Component Integration', () => {
 
   it('should generate correct Tableau URL using serverUrl, report, ticket and site', async(() => {
     /* Set input as it would be done with
-    `<ngx-tableau [serverUrl]="privateUrl" [ticket]="ticket" [site]="'site" [report]="report" "></ngx-tableau>`*/
+    `<ngx-tableau [serverUrl]="privateUrl" [ticket]="ticket" [site]="'site" [report]="report"></ngx-tableau>`*/
     component.tableauComponent.serverUrl = privateUrl;
     component.tableauComponent.ticket = ticket;
     component.tableauComponent.site = 'site';
