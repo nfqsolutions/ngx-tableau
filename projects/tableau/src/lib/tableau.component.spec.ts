@@ -1,3 +1,4 @@
+import { MockScriptService } from './../testAssets/test-script-service';
 import { ScriptService } from './scripts.service';
 import {
   async,
@@ -22,7 +23,12 @@ describe('Tableau Component Integration', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [TableauComponent, TestHostComponent],
-      providers: [ScriptService],
+      providers: [
+        {
+          provide: ScriptService,
+          useClass: MockScriptService,
+        },
+      ],
     }).compileComponents();
   }));
 
@@ -41,7 +47,7 @@ describe('Tableau Component Integration', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should generate correct Tableau URL using tableauVizUrl', async(() => {
+  it('should generate correct Tableau URL using tableauVizUrl', () => {
     /* Set input as it would be done with
     `<ngx-tableau [tableauVizUrl]="'https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages'"></ngx-tableau>`*/
     component.tableauComponent.tableauVizUrl =
@@ -52,9 +58,10 @@ describe('Tableau Component Integration', () => {
     expect(component.tableauComponent.tableauVizUrl).toEqual(
       'https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages'
     );
-  }));
+    console.log(component);
+  });
 
-  it('should generate correct Tableau URL using serverUrl and report', async(() => {
+  it('should generate correct Tableau URL using serverUrl and report', () => {
     /* Set input as it would be done with
     `<ngx-tableau [serverUrl]="publicUrl" [report]="report"></ngx-tableau>`*/
     component.tableauComponent.serverUrl = publicUrl;
@@ -65,9 +72,9 @@ describe('Tableau Component Integration', () => {
     expect(component.tableauComponent.tableauVizUrl).toEqual(
       'https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages'
     );
-  }));
+  });
 
-  it('should generate correct Tableau URL using serverUrl, report and ticket', async(() => {
+  it('should generate correct Tableau URL using serverUrl, report and ticket', () => {
     /* Set input as it would be done with
     `<ngx-tableau [serverUrl]="privateUrl" [ticket]="ticket" [report]="report"></ngx-tableau>`*/
     component.tableauComponent.serverUrl = privateUrl;
@@ -79,9 +86,9 @@ describe('Tableau Component Integration', () => {
     expect(component.tableauComponent.tableauVizUrl).toEqual(
       'https://private.tableau.com/trusted/m323AZ0XT3WZsR3fdapd_w==:1Y9a_sk3MLmoVmTpf0-An4z6/views/HurricaneMichaelPowerOutages/Outages'
     );
-  }));
+  });
 
-  it('should generate correct Tableau URL using serverUrl, report, ticket and site', async(() => {
+  it('should generate correct Tableau URL using serverUrl, report, ticket and site', () => {
     /* Set input as it would be done with
     `<ngx-tableau [serverUrl]="privateUrl" [ticket]="ticket" [site]="'site" [report]="report"></ngx-tableau>`*/
     component.tableauComponent.serverUrl = privateUrl;
@@ -94,7 +101,7 @@ describe('Tableau Component Integration', () => {
     expect(component.tableauComponent.tableauVizUrl).toEqual(
       'https://private.tableau.com/trusted/m323AZ0XT3WZsR3fdapd_w==:1Y9a_sk3MLmoVmTpf0-An4z6/t/site/views/HurricaneMichaelPowerOutages/Outages'
     );
-  }));
+  });
 
   @Component({
     selector: `ngx-host-component`,
@@ -115,7 +122,12 @@ describe('TableauComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [TableauComponent],
-      providers: [ScriptService],
+      providers: [
+        {
+          provide: ScriptService,
+          useClass: MockScriptService,
+        },
+      ],
     }).compileComponents();
   }));
 
@@ -156,7 +168,7 @@ describe('TableauComponent', () => {
     expect(spyOnCreateUrlFromInputs).toHaveBeenCalled();
   }));
 
-  it('should call multisiteUrlOrNot method when creating Url from inputs', async(() => {
+  it('should call multisiteUrlOrNot method when creating Url from inputs', () => {
     tableauComponent.serverUrl = privateUrl;
     tableauComponent.report = report;
     tableauComponent.ticket = ticket;
@@ -169,7 +181,7 @@ describe('TableauComponent', () => {
     tableauComponent.renderTableauViz();
 
     expect(spyOnMultisiteUrlOrNot).toHaveBeenCalled();
-  }));
+  });
 
   it('should multisiteUrlOrNot method return an Url containing the "site" if is a multiplesite server', async(() => {
     tableauComponent.serverUrl = privateUrl;
@@ -190,7 +202,7 @@ describe('TableauComponent', () => {
     );
   }));
 
-  it('should multisiteUrlOrNot method return an Url with no "site"', async(() => {
+  it('should multisiteUrlOrNot method return an Url with no "site"', () => {
     tableauComponent.serverUrl = privateUrl;
     tableauComponent.report = report;
     tableauComponent.ticket = ticket;
@@ -206,7 +218,7 @@ describe('TableauComponent', () => {
     expect(tableauComponent.multisiteUrlOrNot()).toEqual(
       '/views/HurricaneMichaelPowerOutages/Outages'
     );
-  }));
+  });
 
   it('should not create a tableauViz if not required Inputs', () => {
     tableauComponent.tableauVizUrl = '';
@@ -226,7 +238,7 @@ describe('TableauComponent', () => {
     expect(tableauComponent.tableauViz).toBeUndefined();
   });
 
-  it('should throw a console.error if one of the required inputs is missing', async(() => {
+  it('should throw a console.error if one of the required inputs is missing', () => {
     const spyOnConsole = spyOn(console, 'error');
 
     tableauComponent.serverUrl = '';
@@ -241,7 +253,7 @@ describe('TableauComponent', () => {
       'One or both of the following parameters are missing: serverUrl or report'
     );
     expect(tableauComponent.createUrlFromInputs()).toBe(false);
-  }));
+  });
 
   it('should disposed tableauViz after distroying', async(() => {
     tableauComponent.tableauVizUrl =
