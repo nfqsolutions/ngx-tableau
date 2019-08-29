@@ -58,7 +58,6 @@ describe('Tableau Component Integration', () => {
     expect(component.tableauComponent.tableauVizUrl).toEqual(
       'https://public.tableau.com/views/HurricaneMichaelPowerOutages/Outages'
     );
-    console.log(component);
   });
 
   it('should generate correct Tableau URL using serverUrl and report', () => {
