@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test ngx-tableau --code-coverage",
+    "test-ci": "ng test ngx-tableau --watch=false",
     "test-container": "ng test",
     "coverage": "ng test ngx-tableau --code-coverage",
     "lint": "ng lint",
