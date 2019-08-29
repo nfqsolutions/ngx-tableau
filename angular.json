@@ -132,7 +132,11 @@
           "options": {
             "main": "projects/tableau/src/test.ts",
             "tsConfig": "projects/tableau/tsconfig.spec.json",
-            "karmaConfig": "projects/tableau/karma.conf.js"
+            "karmaConfig": "projects/tableau/karma.conf.js",
+            "codeCoverageExclude": [
+              "projects/tableau/src/testAssets/**"
+              
+            ]
           }
         },
         "lint": {
