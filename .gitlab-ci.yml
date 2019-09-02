@@ -21,7 +21,8 @@ build:
 test:
   stage: test
   script:
-    - npm run ci
+    - npm run test-ci
+    # Add ci script on headless mode
 
 sonar-scanner:
   stage: sonar-scanner
