@@ -11,7 +11,7 @@
     "coverage": "ng test ngx-tableau --code-coverage",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "ci": "npm run test-ci && ng e2e && npm run build-tableau",
+    "ci": "npm run test-ci && ng e2e",
     "build-tableau": "ng build --prod ngx-tableau",
     "deploy": "npm run build-tableau && npm publish dist/tableau"
   },
