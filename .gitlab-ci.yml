@@ -1,19 +1,13 @@
-image: node:10
+image: nfqsolutions/node:8.15-chrome
 
 stages:
-  - sonar-scanner
   - build
   - test
+  - sonar-scanner
 
 cache:
   paths:
     - node_modules/
-
-sonar-scanner:
-  stage: sonar-scanner
-  image: miglesiassarria/sonar-scanner
-  script:
-    - sonar-scanner -Dsonar.host.url=http://sonar.nfqsolutions.es:9900 -Dsonar.projectKey=ngx-tableau -Dsonar.login=b70ea19b709786345699f67f0d12eabae3e36f1c -Dsonar.sources=projects/tableau/src -Dsonar.ts.tslint.projectPath=projects/tableau/tslint.json
 
 build:
   stage: build
@@ -28,3 +22,9 @@ test:
   script:
     - npm run test-ci
 # Add ci script on headless mode
+
+sonar-scanner:
+  stage: sonar-scanner
+  image: miglesiassarria/sonar-scanner
+  script:
+    - sonar-scanner -Dsonar.host.url=http://sonar.nfqsolutions.es:9900 -Dsonar.projectKey=ngx-tableau -Dsonar.login=b70ea19b709786345699f67f0d12eabae3e36f1c -Dsonar.sources=projects/tableau/src -Dsonar.exclusions=projects/tableau/src/testAssets/** -Dsonar.ts.tslint.projectPath=projects/tableau/tslint.json
