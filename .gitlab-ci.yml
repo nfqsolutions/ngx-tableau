@@ -17,12 +17,13 @@ build:
   artifacts:
     paths:
       - node_modules/
+      - dist/
+      - coverage/
 
 test:
   stage: test
   script:
-    - npm run test-ci
-    # Add ci script on headless mode
+    - npm run ci
 
 sonar-scanner:
   stage: sonar-scanner
