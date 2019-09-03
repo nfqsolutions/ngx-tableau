@@ -18,12 +18,14 @@ build:
     paths:
       - node_modules/
       - dist/
-      - coverage/
 
 test:
   stage: test
   script:
     - npm run ci
+  artifacts:
+    paths:
+      - coverage/
 
 sonar-scanner:
   stage: sonar-scanner
