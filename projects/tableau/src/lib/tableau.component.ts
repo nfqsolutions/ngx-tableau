@@ -17,6 +17,7 @@ declare var tableau: any;
   ],
 })
 export class TableauComponent implements OnInit, OnDestroy {
+  scriptService;
   tableauViz;
   @Input() tableauVizUrl: string;
 
@@ -31,7 +32,11 @@ export class TableauComponent implements OnInit, OnDestroy {
   @Input() filters: object;
 
   constructor(scriptService: ScriptService) {
-    scriptService
+    this.scriptService = scriptService;
+  }
+
+  ngOnInit() {
+    this.scriptService
       .load('tableau')
       .then(data => {
         console.log('Tableau API successful loaded', data);
@@ -39,8 +44,6 @@ export class TableauComponent implements OnInit, OnDestroy {
       })
       .catch(error => console.error('Tableau API not loaded', error));
   }
-
-  ngOnInit() {}
 
   /**
    * Render a Tableau visualization, generating Tableau URL and using Tableau JS API to show vizualization

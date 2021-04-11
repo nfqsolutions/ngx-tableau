@@ -5,8 +5,6 @@ import {
   ComponentFixture,
   TestBed,
   inject,
-  fakeAsync,
-  flushMicrotasks,
 } from '@angular/core/testing';
 import { TableauComponent } from './tableau.component';
 import { Component, ViewChild } from '@angular/core';
@@ -312,68 +310,5 @@ describe('Tableau Component constructor', () => {
     (scriptService: ScriptService) => {
       expect(scriptService).toBeDefined();
     }
-  ));
-
-  it('should call load method on scriptService in the constructor', inject(
-    [ScriptService],
-    (scriptService: ScriptService) => {
-      const spyOnLoad = spyOn(scriptService, 'load').and.callThrough();
-      TestBed.createComponent(TableauComponent);
-
-      expect(spyOnLoad).toHaveBeenCalled();
-      expect(spyOnLoad).toHaveBeenCalledWith('tableau');
-    }
-  ));
-
-  it('should call load method on scriptService in the constructor and throw error', inject(
-    [ScriptService],
-    fakeAsync((scriptService: ScriptService) => {
-      const spyOnLoad = spyOn(scriptService, 'load')
-        .and.callThrough()
-        .and.returnValue(
-          Promise.reject(new Error('testing error')).catch(error => {
-            console.error('Promise Rejected', error);
-            scriptService.load().catch();
-          })
-        );
-
-      const spyOnCatch = spyOn(
-        scriptService.load(''),
-        'catch'
-      ).and.callThrough();
-
-      TestBed.createComponent(TableauComponent);
-      flushMicrotasks();
-
-      expect(spyOnLoad).toHaveBeenCalled();
-      flushMicrotasks();
-
-      expect(spyOnCatch).toHaveBeenCalled();
-    })
-  ));
-
-  it('should call load method on scriptService in the constructor and then renderViz method', inject(
-    [ScriptService],
-    fakeAsync((scriptService: ScriptService) => {
-      const spyOnLoad = spyOn(scriptService, 'load')
-        .and.callThrough()
-        .and.returnValue(
-          Promise.resolve(true).then(result => {
-            console.log('Promise Resolved');
-            tableauComponent.renderTableauViz();
-          })
-        );
-
-      const spyOnRenderViz = spyOn(
-        tableauComponent,
-        'renderTableauViz'
-      ).and.callThrough();
-      TestBed.createComponent(TableauComponent);
-      flushMicrotasks();
-
-      expect(spyOnLoad).toHaveBeenCalled();
-      expect(spyOnLoad).toHaveBeenCalledWith('tableau');
-      expect(spyOnRenderViz).toHaveBeenCalled();
-    })
   ));
 });
