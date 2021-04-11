@@ -37,11 +37,11 @@ The most basic use is just passing a public Tableau visualization URL.
 
 ## Configuration options
 
-You can pass configuration options to ngx-tableau using the following inputs to the component:
+You can pass configuration options to `ngx-tableau` using the following inputs to the component:
 
 ### tableauVizUrl
 
-URL of a Tableau visualization to embed. Perfect for public visualizations or if you know the exact URL of the Tableau visualization. If this input is defined, the component will Example:
+URL of a Tableau visualization to embed. Perfect for public visualizations or if you know the exact URL of the Tableau visualization. If this input is defined, the component will ignore the configuration options `serverUrl` and `report`. Example:
 
 ```html
 <ngx-tableau
@@ -58,9 +58,13 @@ Filters to pass to the Tableau visualization. It should be a JSON object. Exampl
   tableauVizUrl="https://public.tableau.com/views/SuperSampleSuperstore/SuperDescriptive"
   filters="{ Parameter3: 'Central' }"
 ></ngx-tableau>
-serverUrl URL of Tableau server. If this input is defined, it is mandatory to
-fill at least report input. Example:
+```
 
+### serverUrl
+
+URL of Tableau server. If this input is defined, it is mandatory to fill at least `report` input. Example:
+
+```html
 <ngx-tableau
   serverUrl="https://public.tableau.com"
   report="AutonomousVehicles/AV"
@@ -69,7 +73,7 @@ fill at least report input. Example:
 
 ### report
 
-The name of the workbook and the view ypu want to embed separated by a slash. Mandatory if using serverUrl. Example:
+The name of the workbook and the view you want to embed separated by a slash. Mandatory if using `serverUrl`. Example:
 
 ```html
 <ngx-tableau
@@ -92,7 +96,7 @@ If you want to embed a private Tableau visuzalization skipping sign in page for 
 
 ### site
 
-If it is a multi-site site server you will need to pass the name of the site. If you are using trusted authentication take into account that you should pass a target_site attribute to the request to obtain the ticket or the ticket will not be valid to embed your visualization.
+If it is a multi-site site server you will need to pass the name of the site. If you are using trusted authentication take into account that you should pass a `target_site` attribute to the request to obtain the ticket or the ticket will not be valid to embed your visualization.
 
 ```html
 <ngx-tableau
