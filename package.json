@@ -14,6 +14,7 @@
     "e2e": "ng e2e",
     "ci": "npm run test-ci && ng e2e",
     "build-tableau": "ng build --prod ngx-tableau",
+    "build-tableau-watch": "ng build --prod ngx-tableau --watch",
     "deploy": "npm run build-tableau && npm publish dist/tableau"
   },
   "private": true,
