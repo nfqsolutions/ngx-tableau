@@ -10,9 +10,9 @@ export class AppComponent {
   tableauVizUrl =
     'https://public.tableau.com/views/SuperSampleSuperstore/SuperDescriptive';
 
-  serverUrl="https://us-east-1.online.tableau.com"
-  site="beekepermarketing"
-  report="LiveQueryEmbedTest/Live"
+  serverUrl="https://public.tableau.com"
+  site=""
+  report="SuperSampleSuperstore/SuperDescriptive"
 
   // Report Filters
   filters = {};
