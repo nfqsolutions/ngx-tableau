@@ -1,6 +1,23 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ScriptService } from './scripts.service';
+import { VizCreateOptions } from './vizCreateOptions';
+
 declare var tableau: any;
+
+export interface Viz {
+  dispose();
+  show();
+  hide();
+  pauseAutomaticUpdatesAsync();
+  resumeAutomaticUpdatesAsync();
+  toggleAutomaticUpdatesAsync();
+  revertAllAsync();
+  refreshDataAsync();
+  showDownloadDialog();
+  showDownloadWorkbookDialog();
+  showExportImageDialog();
+  showExportPDFDialog();
+}
 
 @Component({
   selector: 'ngx-tableau',
@@ -18,7 +35,8 @@ declare var tableau: any;
 })
 export class TableauComponent implements OnInit, OnDestroy {
   scriptService;
-  tableauViz;
+  tableauViz: Viz;
+  @Output() loaded = new EventEmitter();
   @Input() tableauVizUrl: string;
 
   @Input() serverUrl: string;
@@ -31,6 +49,8 @@ export class TableauComponent implements OnInit, OnDestroy {
 
   @Input() filters: object;
 
+  @Input() options: VizCreateOptions;
+
   constructor(scriptService: ScriptService) {
     this.scriptService = scriptService;
   }
@@ -41,6 +61,7 @@ export class TableauComponent implements OnInit, OnDestroy {
       .then(data => {
         console.log('Tableau API successful loaded', data);
         this.renderTableauViz();
+        this.loaded.emit(data);
       })
       .catch(error => console.error('Tableau API not loaded', error));
   }
@@ -51,23 +72,16 @@ export class TableauComponent implements OnInit, OnDestroy {
   renderTableauViz() {
     const placeholderDiv = document.getElementById('tableauViz');
     const options = {
-      hideTabs: false,
-      width: '100%',
-      height: '100%',
+      ...this.options,
       ...this.filters,
-      onFirstInteractive() {
-        // Allows you to perform actions once the view has finished loading
-        // The viz is now ready and can be safely used.
-      },
     };
-
     if (this.checkRequiredInputs()) {
       // Usage of Tableau JS API to show visualization
       this.tableauViz = new tableau.Viz(
         placeholderDiv,
         this.tableauVizUrl,
         options
-      );
+      ) as Viz;
     }
   }
 
