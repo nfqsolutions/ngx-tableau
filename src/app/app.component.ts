@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { VizCreateOptions } from 'ngx-tableau/lib/vizCreateOptions';
+import { VizCreateOptions } from 'ngx-tableau';
 
 @Component({
   selector: 'app-root',
@@ -10,15 +10,13 @@ export class AppComponent {
   tableauVizUrl =
     'https://public.tableau.com/views/SuperSampleSuperstore/SuperDescriptive';
 
-  serverUrl="https://public.tableau.com"
-  site=""
-  report="SuperSampleSuperstore/SuperDescriptive"
+  // Splitted Tableau Server URL and Report 
+  serverUrl="https://public.tableau.com";
+  report="SuperSampleSuperstore/SuperDescriptive";
+  // Multisite - only if using a site different from Default
+  site="";
 
-  // Report Filters
-  filters = {};
-
-  // Private Report
-  ticket = '';
+  // Options
   options: VizCreateOptions = {
     hideTabs: true,
     hideToolbar: true,
@@ -31,4 +29,12 @@ export class AppComponent {
     }
   };
 
+  // Report Filters
+  filters = {};
+
+  // Private Report
+  ticket = '';
+
+  // Loaded event
+  handleOnLoaded = (loaded) => console.log("Loaded", loaded)
 }
