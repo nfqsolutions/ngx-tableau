@@ -49,6 +49,32 @@ URL of a Tableau visualization to embed. Perfect for public visualizations or if
 ></ngx-tableau>
 ```
 
+### options
+
+Visualization options for the Tableau view available in the [JavaScript API](https://help.tableau.com/current/api/js_api/en-us/JavaScriptAPI/js_api_ref.htm#vizcreateoptions_record). It should be a JSON object. Example:
+
+```typescript
+import { VizCreateOptions, ToolbarPosition } from 'ngx-tableau'
+
+// Options
+options: VizCreateOptions = {
+  hideTabs: true,
+  hideToolbar: false,
+  disableUrlActionsPopups: true,
+  toolbarPosition: ToolbarPosition.TOP,
+  onFirstInteractive: (event) => {
+    console.log('On first interactive event!', event);
+  }
+};
+```
+
+``` html
+<ngx-tableau
+  tableauVizUrl="https://public.tableau.com/views/SuperSampleSuperstore/SuperDescriptive"
+  [options]="options"
+></ngx-tableau>
+```
+
 ### filters
 
 Filters to pass to the Tableau visualization. It should be a JSON object. Example:
@@ -113,7 +139,7 @@ In this repository there is the code of `ngx-tableau` library, located at `proje
 
 To setup the development environment execute `npm run build-tableau` to build the library and start the host Angular App with `npm start`.
 
-Make changes in `projects/tableau/src/lib` and execute command `npm run build-tableau` to build tableau library module.
+Make changes in `projects/tableau/src/lib` and execute command `npm run build-tableau` to build tableau library module or execute `npm run build-tableau-watch` to build the library when there is any code change.
 
 ## Running tests for tableau library
 
