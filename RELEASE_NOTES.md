@@ -23,6 +23,16 @@ Improvements/enhancements to a workflow, performance, logging, error messaging, 
 Other Changes
 Other miscellaneous changes that don't fit into any of the above categories. Try to leave this empty - ideally, all changes fit into the categories above
 
+## 1.3.0
+
+Bug Fixes
+
+- Fixed type of `toolbarPosition` option
+
+Other Changes
+
+- Added options to the documentation
+
 ## 1.2.0
 
 New feature

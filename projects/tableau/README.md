@@ -50,6 +50,32 @@ URL of a Tableau visualization to embed. Perfect for [public visualizations](htt
 ></ngx-tableau>
 ```
 
+### options
+
+Visualization options for the Tableau view available in the [JavaScript API](https://help.tableau.com/current/api/js_api/en-us/JavaScriptAPI/js_api_ref.htm#vizcreateoptions_record). It should be a JSON object. Example:
+
+```typescript
+import { VizCreateOptions, ToolbarPosition } from 'ngx-tableau'
+
+// Options
+options: VizCreateOptions = {
+  hideTabs: true,
+  hideToolbar: false,
+  disableUrlActionsPopups: true,
+  toolbarPosition: ToolbarPosition.TOP,
+  onFirstInteractive: (event) => {
+    console.log('On first interactive event!', event);
+  }
+};
+```
+
+``` html
+<ngx-tableau
+  tableauVizUrl="https://public.tableau.com/views/SuperSampleSuperstore/SuperDescriptive"
+  [options]="options"
+></ngx-tableau>
+```
+
 ### filters
 
 Filters to pass to the Tableau visualization. It should be a JSON object. Example:
