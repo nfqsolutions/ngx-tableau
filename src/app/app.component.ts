@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { VizCreateOptions } from 'ngx-tableau';
+import { VizCreateOptions, ToolbarPosition } from 'ngx-tableau';
 
 @Component({
   selector: 'app-root',
@@ -19,11 +19,9 @@ export class AppComponent {
   // Options
   options: VizCreateOptions = {
     hideTabs: true,
-    hideToolbar: true,
+    hideToolbar: false,
     disableUrlActionsPopups: true,
-    toolbarPosition: (event) =>{
-      console.log(event);
-    },
+    toolbarPosition: ToolbarPosition.TOP,
     onFirstInteractive: (event) => {
       console.log('I was called', event);
     }

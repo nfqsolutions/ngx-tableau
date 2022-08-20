@@ -8,5 +8,10 @@ export class VizCreateOptions {
   device?: string;
   onFirstInteractive?: (event: any) => void;
   onFirstVizSizeKnown?: (event: any) => void;
-  toolbarPosition?: (event: any) => void;
+  toolbarPosition?: ToolbarPosition;
+}
+
+export enum ToolbarPosition {
+  TOP = 'top',
+  BOTTOM = 'bottom'
 }
