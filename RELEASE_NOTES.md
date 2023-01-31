@@ -23,6 +23,12 @@ Improvements/enhancements to a workflow, performance, logging, error messaging, 
 Other Changes
 Other miscellaneous changes that don't fit into any of the above categories. Try to leave this empty - ideally, all changes fit into the categories above
 
+## 1.3.1
+
+Improvements
+
+- Updated Tableau embedding API to latest 2.x version. Thanks to [koesper](https://github.com/koesper) for the [Pull Request](https://github.com/nfqsolutions/ngx-tableau/pull/34)!
+
 ## 1.3.0
 
 Bug Fixes

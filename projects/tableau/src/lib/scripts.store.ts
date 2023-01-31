@@ -5,6 +5,6 @@ export interface Scripts {
 export const ScriptStore: Scripts[] = [
   {
     name: 'tableau',
-    src: 'https://public.tableau.com/javascripts/api/tableau-2.2.2.min.js',
+    src: 'https://public.tableau.com/javascripts/api/tableau-2.9.1.min.js',
   },
 ];
