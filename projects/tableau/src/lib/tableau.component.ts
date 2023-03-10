@@ -35,8 +35,13 @@ export interface Viz {
 })
 export class TableauComponent implements OnInit, OnDestroy {
   scriptService;
+  
   tableauViz: Viz;
+
   @Output() loaded = new EventEmitter();
+  
+  @Output() tableauVizLoaded = new EventEmitter();
+
   @Input() tableauVizUrl: string;
 
   @Input() serverUrl: string;
@@ -82,6 +87,7 @@ export class TableauComponent implements OnInit, OnDestroy {
         this.tableauVizUrl,
         options
       ) as Viz;
+      this.tableauVizLoaded.emit(this.tableauViz);
     }
   }
 

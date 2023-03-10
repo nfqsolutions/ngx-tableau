@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { VizCreateOptions, ToolbarPosition } from 'ngx-tableau';
+import { VizCreateOptions, ToolbarPosition, TableauEvents } from 'ngx-tableau';
 
 @Component({
   selector: 'app-root',
@@ -34,5 +34,12 @@ export class AppComponent {
   ticket = '';
 
   // Loaded event
-  handleOnLoaded = (loaded) => console.log("Loaded", loaded)
+  handleOnLoaded = (loaded) => console.log("Tableau JS API loaded", loaded)
+
+  handleOnTableauVizLoaded = (tableauViz) => {
+    console.log("Tableau viz loaded", tableauViz)
+    tableauViz.addEventListener(TableauEvents.TAB_SWITCH, (event)=>{console.log("Tab changed", event)})
+    tableauViz.addEventListener(TableauEvents.PARAMETER_VALUE_CHANGE, (event)=>{console.log("Parameter value changed", event)})
+    tableauViz.addEventListener(TableauEvents.MARKS_SELECTION, (event)=>{console.log("Marks selection", event)})
+  }
 }

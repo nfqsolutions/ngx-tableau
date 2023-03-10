@@ -5,3 +5,4 @@
 export * from './lib/tableau.component';
 export * from './lib/tableau.module';
 export { VizCreateOptions, ToolbarPosition } from './lib/vizCreateOptions';
+export { TableauEvents } from './lib/tableauEvents';
