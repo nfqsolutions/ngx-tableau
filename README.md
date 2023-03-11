@@ -187,6 +187,10 @@ Run `npm run ci` to execute ngx-tableau continous integration tests
 
 First you should login with an existing user on npm registry. You can create a new account [here](https://docs.npmjs.com/creating-a-new-npm-user-account). Then execute `npm login` to sign in.
 
+Create changelog entry for new release in `RELEASE_NOTES.md`
+
 Update `package.json` with the latest version following semver syntax x.y.z
+
+Run `npm run build-tableau` to create the new production ready artifact
 
 Run `npm run deploy` to upload a new version of ngx-tableau to public npm registry

@@ -23,6 +23,16 @@ Improvements/enhancements to a workflow, performance, logging, error messaging, 
 Other Changes
 Other miscellaneous changes that don't fit into any of the above categories. Try to leave this empty - ideally, all changes fit into the categories above
 
+## 1.4.0
+
+New Features
+
+- Added `tableauVizLoaded` event and documentation for handling Tableau Viz [events](https://help.tableau.com/current/api/js_api/en-us/JavaScriptAPI/js_api_ref.htm#viz_event_classes)
+
+Other Changes
+
+- Added `debugMode` option to show only log traces when enabled. Fixes [issue #38](https://github.com/nfqsolutions/ngx-tableau/issues/38)
+
 ## 1.3.1
 
 Improvements
