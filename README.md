@@ -133,6 +133,31 @@ If it is a multi-site site server you will need to pass the name of the site. If
 ></ngx-tableau>
 ```
 
+## Handling events
+
+You can add or remove [event listeners](https://help.tableau.com/current/api/js_api/en-us/JavaScriptAPI/js_api_ref.htm#viz_event_classes) for the Tableau Viz object.
+
+```html
+<ngx-tableau
+  serverUrl="https://public.tableau.com/views/SuperSampleSuperstore/SuperDescriptive"
+  (tableauVizLoaded)="handleOnTableauVizLoaded($event)"
+></ngx-tableau>
+```
+
+```typescript
+import { TableauEvents } from 'ngx-tableau';
+
+handleOnTableauVizLoaded = (tableauViz) => {
+  console.log("Tableau viz loaded", tableauViz);
+
+  tableauViz.addEventListener(TableauEvents.TAB_SWITCH, (event)=>{
+    console.log(`Tab changed from '${event.getOldSheetName()}' to '${event.getNewSheetName()}'`, event)
+  })
+}
+```
+
+For a complete reference about Viz event types and specific handling, see the official [documentation](https://help.tableau.com/current/api/js_api/en-us/JavaScriptAPI/js_api_ref.htm#viz_event_classes).
+
 ## Developing ngx-tableau library
 
 In this repository there is the code of `ngx-tableau` library, located at `projects/tableau` and the code for a base Angular webapp located at `src/` which includes the library, to make development easier.
