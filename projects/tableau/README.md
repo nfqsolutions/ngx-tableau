@@ -134,6 +134,17 @@ If it is a multi-site site server you will need to pass the name of the site. If
 ></ngx-tableau>
 ```
 
+### debugMode
+
+Enables the debug mode of the component, which will show log traces in thde console.
+
+```html
+<ngx-tableau
+  tableauVizUrl="https://public.tableau.com/views/SuperSampleSuperstore/SuperDescriptive"
+  [debugMode]="true"
+></ngx-tableau>
+```
+
 ## Handling events
 
 You can add or remove [event listeners](https://help.tableau.com/current/api/js_api/en-us/JavaScriptAPI/js_api_ref.htm#viz_event_classes) for the Tableau Viz object.
