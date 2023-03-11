@@ -133,6 +133,42 @@ If it is a multi-site site server you will need to pass the name of the site. If
 ></ngx-tableau>
 ```
 
+### debugMode
+
+Enables the debug mode of the component, which will show log traces in thde console.
+
+```html
+<ngx-tableau
+  tableauVizUrl="https://public.tableau.com/views/SuperSampleSuperstore/SuperDescriptive"
+  [debugMode]="true"
+></ngx-tableau>
+```
+
+## Handling events
+
+You can add or remove [event listeners](https://help.tableau.com/current/api/js_api/en-us/JavaScriptAPI/js_api_ref.htm#viz_event_classes) for the Tableau Viz object.
+
+```html
+<ngx-tableau
+  serverUrl="https://public.tableau.com/views/SuperSampleSuperstore/SuperDescriptive"
+  (tableauVizLoaded)="handleOnTableauVizLoaded($event)"
+></ngx-tableau>
+```
+
+```typescript
+import { TableauEvents } from 'ngx-tableau';
+
+handleOnTableauVizLoaded = (tableauViz) => {
+  console.log("Tableau viz loaded", tableauViz);
+
+  tableauViz.addEventListener(TableauEvents.TAB_SWITCH, (event)=>{
+    console.log(`Tab changed from '${event.getOldSheetName()}' to '${event.getNewSheetName()}'`, event)
+  })
+}
+```
+
+For a complete reference about Viz event types and specific handling, see the official [documentation](https://help.tableau.com/current/api/js_api/en-us/JavaScriptAPI/js_api_ref.htm#viz_event_classes).
+
 ## Developing ngx-tableau library
 
 In this repository there is the code of `ngx-tableau` library, located at `projects/tableau` and the code for a base Angular webapp located at `src/` which includes the library, to make development easier.
@@ -151,6 +187,10 @@ Run `npm run ci` to execute ngx-tableau continous integration tests
 
 First you should login with an existing user on npm registry. You can create a new account [here](https://docs.npmjs.com/creating-a-new-npm-user-account). Then execute `npm login` to sign in.
 
+Create changelog entry for new release in `RELEASE_NOTES.md`
+
 Update `package.json` with the latest version following semver syntax x.y.z
+
+Run `npm run build-tableau` to create the new production ready artifact
 
 Run `npm run deploy` to upload a new version of ngx-tableau to public npm registry

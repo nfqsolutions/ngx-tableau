@@ -35,8 +35,13 @@ export interface Viz {
 })
 export class TableauComponent implements OnInit, OnDestroy {
   scriptService;
+  
   tableauViz: Viz;
+
   @Output() loaded = new EventEmitter();
+  
+  @Output() tableauVizLoaded = new EventEmitter();
+
   @Input() tableauVizUrl: string;
 
   @Input() serverUrl: string;
@@ -51,15 +56,23 @@ export class TableauComponent implements OnInit, OnDestroy {
 
   @Input() options: VizCreateOptions;
 
+  @Input() debugMode: boolean = false;
+
   constructor(scriptService: ScriptService) {
     this.scriptService = scriptService;
+  }
+
+  debug(message: string, data: any = {}) {
+    if (this.debugMode) {
+      data ? console.log(message) : console.log(message, data)
+    }
   }
 
   ngOnInit() {
     this.scriptService
       .load('tableau')
       .then(data => {
-        console.log('Tableau API successful loaded', data);
+        this.debug('Tableau API successful loaded', data);
         this.renderTableauViz();
         this.loaded.emit(data);
       })
@@ -82,6 +95,7 @@ export class TableauComponent implements OnInit, OnDestroy {
         this.tableauVizUrl,
         options
       ) as Viz;
+      this.tableauVizLoaded.emit(this.tableauViz);
     }
   }
 
@@ -93,7 +107,7 @@ export class TableauComponent implements OnInit, OnDestroy {
     if (!this.tableauVizUrl) {
       return this.createUrlFromInputs();
     } else {
-      console.log(`Using Tableau visualization URL: ${this.tableauVizUrl}`);
+      this.debug(`Using Tableau visualization URL: ${this.tableauVizUrl}`);
     }
 
     return true;
@@ -114,7 +128,7 @@ export class TableauComponent implements OnInit, OnDestroy {
       this.tableauVizUrl = `${this.serverUrl}/trusted/${
         this.ticket
       }${endOfUrl}`;
-      console.log(
+      this.debug(
         `Using Tableau visualization URL for private site: ${
           this.tableauVizUrl
         }`
@@ -124,7 +138,7 @@ export class TableauComponent implements OnInit, OnDestroy {
       const endOfUrl = this.multisiteUrlOrNot();
 
       this.tableauVizUrl = `${this.serverUrl}${endOfUrl}`;
-      console.log(
+      this.debug(
         `Using Tableau visualization URL for public site: ${this.tableauVizUrl}`
       );
       return true;
