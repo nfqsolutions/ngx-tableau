@@ -2,7 +2,7 @@
   "name": "ngx-tableau",
   "version": "1.4.0",
   "peerDependencies": {
-    "@angular/common": ">=5.0.0",
-    "@angular/core": ">=5.0.0"
+    "@angular/common": ">=16.0.0",
+    "@angular/core": ">=16.0.0"
   }
 }
