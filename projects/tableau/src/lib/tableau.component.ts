@@ -1,29 +1,34 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { ScriptService } from './scripts.service';
 import { VizCreateOptions } from './vizCreateOptions';
 
 declare var tableau: any;
 
 export interface Viz {
-  dispose();
-  show();
-  hide();
-  pauseAutomaticUpdatesAsync();
-  resumeAutomaticUpdatesAsync();
-  toggleAutomaticUpdatesAsync();
-  revertAllAsync();
-  refreshDataAsync();
-  showDownloadDialog();
-  showDownloadWorkbookDialog();
-  showExportImageDialog();
-  showExportPDFDialog();
+  dispose(): any;
+  show(): any;
+  hide(): any;
+  pauseAutomaticUpdatesAsync(): any;
+  resumeAutomaticUpdatesAsync(): any;
+  toggleAutomaticUpdatesAsync(): any;
+  revertAllAsync(): any;
+  refreshDataAsync(): any;
+  showDownloadDialog(): any;
+  showDownloadWorkbookDialog(): any;
+  showExportImageDialog(): any;
+  showExportPDFDialog(): any;
 }
 
 @Component({
   selector: 'ngx-tableau',
-  template: `
-    <div class="ngx-tableau-viz" id="tableauViz"></div>
-  `,
+  template: ` <div class="ngx-tableau-viz" id="tableauViz"></div> `,
   styles: [
     `
       .ngx-tableau-viz {
@@ -35,26 +40,26 @@ export interface Viz {
 })
 export class TableauComponent implements OnInit, OnDestroy {
   scriptService;
-  
-  tableauViz: Viz;
+
+  tableauViz!: Viz;
 
   @Output() loaded = new EventEmitter();
-  
+
   @Output() tableauVizLoaded = new EventEmitter();
 
-  @Input() tableauVizUrl: string;
+  @Input() tableauVizUrl!: string;
 
-  @Input() serverUrl: string;
+  @Input() serverUrl!: string;
 
-  @Input() ticket: string;
+  @Input() ticket!: string;
 
-  @Input() site: string;
+  @Input() site!: string;
 
-  @Input() report: string;
+  @Input() report!: string;
 
-  @Input() filters: object;
+  @Input() filters!: object;
 
-  @Input() options: VizCreateOptions;
+  @Input() options!: VizCreateOptions;
 
   @Input() debugMode: boolean = false;
 
@@ -64,7 +69,7 @@ export class TableauComponent implements OnInit, OnDestroy {
 
   debug(message: string, data: any = {}) {
     if (this.debugMode) {
-      data ? console.log(message) : console.log(message, data)
+      data ? console.log(message) : console.log(message, data);
     }
   }
 
@@ -125,13 +130,9 @@ export class TableauComponent implements OnInit, OnDestroy {
     if (this.ticket && this.serverUrl && this.report) {
       const endOfUrl = this.multisiteUrlOrNot();
 
-      this.tableauVizUrl = `${this.serverUrl}/trusted/${
-        this.ticket
-      }${endOfUrl}`;
+      this.tableauVizUrl = `${this.serverUrl}/trusted/${this.ticket}${endOfUrl}`;
       this.debug(
-        `Using Tableau visualization URL for private site: ${
-          this.tableauVizUrl
-        }`
+        `Using Tableau visualization URL for private site: ${this.tableauVizUrl}`
       );
       return true;
     } else if (this.serverUrl && this.report) {

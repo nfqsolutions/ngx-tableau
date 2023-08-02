@@ -130,7 +130,7 @@
       "prefix": "ngx",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr:build",
           "options": {
             "tsConfig": "projects/tableau/tsconfig.lib.json",
             "project": "projects/tableau/ng-package.json"
@@ -166,7 +166,6 @@
       }
     }
   },
-  "defaultProject": "ngx-tableau-host",
   "cli": {
     "analytics": "5f5a6330-107d-4d3d-bbc2-e14ee5114c92"
   }

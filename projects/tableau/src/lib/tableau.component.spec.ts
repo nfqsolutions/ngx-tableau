@@ -108,7 +108,7 @@ describe('Tableau Component Integration', () => {
   })
   class TestHostComponent {
     @ViewChild(TableauComponent)
-    public tableauComponent: TableauComponent;
+    public tableauComponent: TableauComponent | undefined;
   }
 });
 
@@ -146,8 +146,8 @@ describe('TableauComponent', () => {
   it('Tableau Viz should be defined', () => {
     const tableauElement = document.getElementById('tableauViz');
     expect(tableauElement).toBeDefined();
-    expect(tableauElement.tagName).toEqual('DIV');
-    expect(tableauElement.className).toEqual('ngx-tableau-viz');
+    expect(tableauElement?.tagName).toEqual('DIV');
+    expect(tableauElement?.className).toEqual('ngx-tableau-viz');
   });
 
   it('should call createUrlFromInputs method if not tableauVizUrl', async(() => {
