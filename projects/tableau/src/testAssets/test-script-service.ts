@@ -1,3 +1,4 @@
+// @ts-ignore
 import { MOCK_RESPONSE } from './testing-resources';
 
 export class MockScriptService {

@@ -1,5 +1,5 @@
 /*! tableau-2.9.1 */
-(function () {
+export const MOCK_RESPONSE = (function () {
   /*! BEGIN MscorlibSlim */
   var global = {};
   (function (global) {

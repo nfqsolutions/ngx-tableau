@@ -3,6 +3,11 @@
 ngx-tableau is an Angular module that allows to embed a [Tableau](https://www.tableau.com) report in an Angular webapp.
 You can see a working **DEMO** [here](https://stackblitz.com/edit/ngx-tableau).
 
+## Prerequisites
+
+- NodeJS version 16+ for 2.x versions
+- NodeJS version 10+ for 1.x versions
+
 ## Getting started
 
 Install ngx-tableau library using npm:

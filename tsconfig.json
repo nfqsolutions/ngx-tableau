@@ -5,8 +5,7 @@
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
-    // TODO(gkalpak): Fix the code and enable this.
-    // "strict": true,
+    "strict": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
@@ -15,11 +14,11 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2015",
-    "module": "es2020",
+    "target": "ES2022",
+    "module": "ESNext",
     "lib": [
-      "es2018",
-      "dom"
+      "DOM",
+      "ESNext"
     ],
     "paths": {
       "ngx-tableau": [
