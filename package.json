@@ -2,6 +2,10 @@
   "name": "ngx-tableau-host",
   "version": "0.0.0",
   "description": "Example Angular project to develop ngx-tableau.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nfqsolutions/ngx-tableau"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -15,7 +19,7 @@
     "ci": "npm run test-ci && ng e2e",
     "build-tableau": "ng build --configuration production ngx-tableau",
     "build-tableau-watch": "ng build --configuration production ngx-tableau --watch",
-    "deploy": "npm run build-tableau && npm publish dist/tableau"
+    "deploy": "npm run build-tableau && cd dist/tableau && npm publish"
   },
   "private": true,
   "dependencies": {
