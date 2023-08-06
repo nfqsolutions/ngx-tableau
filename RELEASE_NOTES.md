@@ -23,7 +23,7 @@ Improvements/enhancements to a workflow, performance, logging, error messaging, 
 Other Changes
 Other miscellaneous changes that don't fit into any of the above categories. Try to leave this empty - ideally, all changes fit into the categories above
 
-## 2.0.0
+## 2.0.1
 
 Breaking Changes
 
