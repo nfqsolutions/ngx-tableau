@@ -47,10 +47,21 @@ You can pass configuration options to ngx-tableau using the following inputs to 
 
 ### tableauVizUrl
 
-URL of a Tableau visualization to embed. Perfect for [public visualizations](https://public.tableau.com/gallery) or if you know the exact URL of the Tableau visualization. If this input is defined, the component will Example:
+URL of a Tableau visualization to embed. Perfect for [public visualizations](https://public.tableau.com/gallery) or if you know the exact URL of the Tableau visualization. If this input is defined, the component will ignore the configuration options `serverUrl` and `report`. Example:
 
 ```html
 <ngx-tableau
+  tableauVizUrl="https://public.tableau.com/views/AroundtheAntarctic/MapClean"
+></ngx-tableau>
+```
+
+### tableauJsApiUrl
+
+URL of Tableau JavaScript API v2, to be able to load a custom version (public or from your own Tableau Server). The default Tableau JavaScript API loaded if this variable is not set is `https://public.tableau.com/javascripts/api/tableau-2.9.1.min.js`. Example:
+
+```html
+<ngx-tableau
+  tableauJsApiUrl="https://public.tableau.com/javascripts/api/tableau-2.9.1.min.js"
   tableauVizUrl="https://public.tableau.com/views/AroundtheAntarctic/MapClean"
 ></ngx-tableau>
 ```

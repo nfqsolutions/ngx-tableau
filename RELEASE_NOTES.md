@@ -23,6 +23,12 @@ Improvements/enhancements to a workflow, performance, logging, error messaging, 
 Other Changes
 Other miscellaneous changes that don't fit into any of the above categories. Try to leave this empty - ideally, all changes fit into the categories above
 
+## 2.1.0
+
+New features
+
+- Added configuration option to allow loading a custom version of the Tableau JavaScript API v2. Fixes [issue #42](https://github.com/nfqsolutions/ngx-tableau/issues/42)
+
 ## 2.0.1
 
 Breaking Changes
