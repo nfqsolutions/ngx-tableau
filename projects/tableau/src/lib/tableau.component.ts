@@ -47,6 +47,8 @@ export class TableauComponent implements OnInit, OnDestroy {
 
   @Output() tableauVizLoaded = new EventEmitter();
 
+  @Input() tableauJsApiUrl!: string;
+
   @Input() tableauVizUrl!: string;
 
   @Input() serverUrl!: string;
@@ -74,14 +76,33 @@ export class TableauComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.scriptService
-      .load('tableau')
-      .then(data => {
-        this.debug('Tableau API successful loaded', data);
+    if (this.tableauJsApiUrl) {
+      // If tableauJsApiUrl is defined, load custom Tableau JavaScript API from this variable
+      this.debug(`Loading custom Tableau JavaScript API file from ${this.tableauJsApiUrl}`);
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = this.tableauJsApiUrl;
+      document.getElementsByTagName('head')[0].appendChild(script);
+      
+      script.onload = () => {
+        this.debug(`Custom Tableau JavaScript API successful loaded from ${this.tableauJsApiUrl}`);
         this.renderTableauViz();
-        this.loaded.emit(data);
-      })
-      .catch(error => console.error('Tableau API not loaded', error));
+        this.loaded.emit(true);
+      };
+
+      script.onerror = (error: any) => console.error('Error loading custom Tableau JavaScript API', error);
+    } else {
+      // If tableauJsApiUrl is not defined, load default Tableau JavaScript API from ScriptService
+      this.debug(`Loading default Tableau JavaScript API file`);
+      this.scriptService
+        .load('tableau')
+        .then(data => {
+          this.debug('Default Tableau JavaScript API successful loaded', data);
+          this.renderTableauViz();
+          this.loaded.emit(data);
+        })
+        .catch(error => console.error('Error loading default Tableau JavaScript API', error));
+    }
   }
 
   /**
