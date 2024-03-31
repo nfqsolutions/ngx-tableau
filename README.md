@@ -49,6 +49,17 @@ URL of a Tableau visualization to embed. Perfect for public visualizations or if
 ></ngx-tableau>
 ```
 
+### tableauJsApiUrl
+
+URL of Tableau JavaScript API v2, to be able to load a custom version (public or from your own Tableau Server). The default Tableau JavaScript API loaded if this variable is not set is `https://public.tableau.com/javascripts/api/tableau-2.9.1.min.js`. Example:
+
+```html
+<ngx-tableau
+  tableauJsApiUrl="https://public.tableau.com/javascripts/api/tableau-2.9.1.min.js"
+  tableauVizUrl="https://public.tableau.com/views/AroundtheAntarctic/MapClean"
+></ngx-tableau>
+```
+
 ### options
 
 Visualization options for the Tableau view available in the [JavaScript API](https://help.tableau.com/current/api/js_api/en-us/JavaScriptAPI/js_api_ref.htm#vizcreateoptions_record). It should be a JSON object. Example:

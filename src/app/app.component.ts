@@ -6,6 +6,8 @@ import { VizCreateOptions, ToolbarPosition, TableauEvents } from 'ngx-tableau';
   templateUrl: './app.component.html',
 })
 export class AppComponent {
+  // Custom Tableau JavaScript API
+  tableauJsApiUrl = "https://public.tableau.com/javascripts/api/tableau-2.9.1.min.js"
   // Full Tableau URL
   tableauVizUrl =
     'https://public.tableau.com/views/SuperSampleSuperstore/SuperDescriptive';
