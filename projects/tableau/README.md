@@ -3,6 +3,16 @@
 ngx-tableau is an Angular module that allows to embed a [Tableau](https://www.tableau.com) report in an Angular webapp.
 You can see a working **DEMO** [here](https://stackblitz.com/edit/ngx-tableau).
 
+<div style="background-color: #56adff69; border-radius: 4px;">
+  <p style="padding: 16px">
+    <a href="https://help.tableau.com/current/api/js_api/en-us/JavaScriptAPI/js_api.htm" target="_blank">The Tableau JavaScript API was deprecated as of February 2024</a> in favor of the new <a href="https://help.tableau.com/current/api/embedding_api/en-us/index.html" target="_blank">Embedding API v3</a>, which exposes a web component with the features provided by this module.
+    <br/><br/>
+    It is strongly suggested to migrate to the new Embedding API v3, for which this <a href="https://help.tableau.com/current/api/embedding_api/en-us/docs/embedding_api_migration_guide.html" target="_blank">migration guide</a> may be useful.
+    <br/><br/>
+    <strong>As Tableau now provides an official replacement for this module, this module will not be maintained anymore.</strong> Thanks to all of you who have used it.
+  </p>
+</div>
+
 ## Prerequisites
 
 - NodeJS version 16+ for 2.x versions
